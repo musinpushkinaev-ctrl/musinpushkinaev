@@ -50,7 +50,7 @@
   }
   .cover h1 span{ color:var(--accent); }
   .cover .sub{ font-size:17pt; color:var(--ink-soft); margin:0; }
-  .cover .sign{ margin-top:auto; padding-bottom:12mm; font-size:12.5pt; color:var(--ink-soft); font-weight:600; }
+  .cover .sign{ margin-top:auto; padding-bottom:12mm; font-size:14pt; color:var(--ink-soft); font-weight:600; }
 
   /* ---------- общие ---------- */
   h2{
@@ -104,9 +104,12 @@
   .dots i{ width:8mm; height:8mm; border-radius:50%; border:0.6mm solid var(--accent); background:#fff; display:block; }
 
   /* ---------- блоки ---------- */
-  .block-head{ display:flex; align-items:baseline; gap:4mm; margin:7mm 0 2mm; }
+  .block-head{ display:flex; align-items:baseline; gap:4mm; margin:5mm 0 1mm; }
   .block-num{ font-size:13pt; font-weight:800; color:var(--accent); letter-spacing:.08em; text-transform:uppercase; }
-  .block .art{ aspect-ratio:16/8; }
+  .block .art{ aspect-ratio:16/6.6; }
+  .block{ padding-top:13mm; padding-bottom:12mm; }
+  .block h2{ margin-bottom:3.5mm; }
+  .block .item{ padding:4.5mm 5.5mm; margin-bottom:3.5mm; }
 
   .item{
     background:var(--card); border-radius:4.5mm; border:0.4mm solid var(--line);
@@ -133,15 +136,16 @@
   .tip b{ color:var(--accent); }
   .mono{
     font-family:"Inter",sans-serif; font-weight:700; background:#fff; border:0.4mm solid var(--line);
-    border-radius:1.5mm; padding:0.4mm 1.8mm; white-space:nowrap;
+    border-radius:1.5mm; padding:0.4mm 1.8mm;
   }
-  .swap{ display:flex; flex-direction:column; gap:2mm; margin-top:2mm; }
+  .swap{ display:flex; gap:3mm; margin-top:2mm; }
+  .swap div{ flex:1; }
   .swap div{ border-radius:2mm; padding:2.4mm 3.5mm; font-weight:700; background:#fff; }
   .swap .bad{ color:#9A8F88; text-decoration:line-through; text-decoration-thickness:0.4mm; }
   .swap .good{ color:var(--ink); border:0.5mm solid var(--accent); }
 
   /* ---------- результат ---------- */
-  .bands{ display:flex; flex-direction:column; gap:4mm; margin:2mm 0 8mm; }
+  .bands{ display:flex; flex-direction:column; gap:3mm; margin:0 0 6mm; }
   .band{ display:flex; border-radius:4.5mm; overflow:hidden; background:var(--card); border:0.4mm solid var(--line); break-inside:avoid; }
   .band .score{
     flex:none; width:36mm; display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -162,9 +166,57 @@
   .cta .chips span{ background:rgba(255,255,255,.1); border-radius:10mm; padding:2mm 4.5mm; font-size:13pt; font-weight:700; }
   .cta .how{ background:var(--accent); color:#fff; border-radius:4mm; padding:4.5mm 5mm; font-size:15pt; font-weight:700; }
   .cta .how a{ color:#fff; }
-  .final-art{ aspect-ratio:16/9; margin:0 0 7mm; }
+  .final-art{ aspect-ratio:16/7; margin:0 0 6mm; }
   .disclaimer{ margin-top:6mm; font-size:11.5pt; color:var(--ink-soft); text-align:center; }
   .todo{ background:#FFF200; color:#000; padding:0 1mm; }
+
+  /* мокап ленты (блок 2) */
+  .feed-mock{ aspect-ratio:16/6.6; border-radius:5mm; background:var(--accent-soft); display:flex; align-items:center; gap:8mm; padding:7mm 9mm; overflow:hidden; }
+  .phone{ flex:none; width:66mm; height:100%; background:var(--ink); border-radius:7mm; padding:4mm; display:grid; grid-template-columns:1fr 1fr; gap:2.5mm; }
+  .fcard{ background:#fff; border-radius:2.5mm; padding:1.6mm; display:flex; flex-direction:column; gap:1.2mm; }
+  .fcard .ph{ flex:1; border-radius:1.6mm; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .fcard b{ height:2mm; width:85%; background:var(--ink); border-radius:1mm; display:block; }
+  .fcard s{ height:1.6mm; width:50%; background:var(--accent); border-radius:1mm; display:block; }
+  .ph1{ background:linear-gradient(160deg,#FFD9C4,#FF8A5C); }
+  .ph1 i{ position:absolute; left:20%; bottom:0; width:60%; height:55%; background:#fff; border-radius:2mm 2mm 0 0; box-shadow:inset 0 -3mm 0 #1E2742; }
+  .ph2{ background:linear-gradient(160deg,#FFE9D9,#F7B68E); }
+  .ph2 i{ position:absolute; width:55%; height:55%; border-radius:50%; background:#FF6A3D; top:20%; left:22%; box-shadow:0 0 0 2mm #fff; }
+  .ph3{ background:linear-gradient(160deg,#2F3A5C,#5A6690); }
+  .ph3 i{ position:absolute; left:12%; right:12%; bottom:12%; height:35%; background:#FFB08F; border-radius:1.5mm; }
+  .dull{ opacity:.55; filter:grayscale(1); outline:0.6mm dashed #fff; }
+  .dull .ph{ background:#D8D8D8; }
+  .dull .ph span{ font-size:9pt; font-weight:800; color:#888; border:0.5mm solid #999; border-radius:50%; width:13mm; height:13mm; display:flex; align-items:center; justify-content:center; }
+  .feed-notes{ display:flex; flex-direction:column; gap:5mm; font-size:14.5pt; line-height:1.3; }
+  .fn{ display:flex; gap:3mm; align-items:flex-start; }
+  .dot{ flex:none; width:6mm; height:6mm; border-radius:50%; margin-top:1mm; }
+  .dot.hot{ background:var(--accent); }
+  .dot.cold{ background:#BDBDBD; }
+
+  /* обложки блоков */
+  .opener{ padding:0; }
+  .opener .art, .opener .feed-mock{ aspect-ratio:16/10; border-radius:0; border:none; }
+  .opener-body{ padding:12mm 18mm; }
+  .opener .block-num{ font-size:15pt; }
+  .opener h2{ font-size:40pt; margin:3mm 0 6mm; }
+  .opener .lead{ font-size:19pt; line-height:1.4; color:var(--ink); }
+  .opener .feed-mock{ padding:14mm 18mm; gap:10mm; }
+  .opener .phone{ width:82mm; }
+  .opener .feed-notes{ font-size:18pt; gap:8mm; }
+  .opener .dot{ width:7mm; height:7mm; margin-top:1.5mm; }
+  .block-num.cont{ margin:0 0 6mm; font-size:13pt; }
+  .final-art{ aspect-ratio:16/5.6 !important; }
+
+  .opener .art, .opener .feed-mock{ aspect-ratio:16/9 !important; }
+  .opener-body{ padding:9mm 18mm 0 !important; }
+  .opener h2{ margin:2mm 0 4mm !important; }
+  .opener .lead{ font-size:17pt !important; margin-bottom:6mm; }
+  .final-art{ aspect-ratio:16/5 !important; margin-bottom:5mm !important; }
+  .cta{ padding:6mm 7mm !important; }
+  .block{ padding-top:11mm !important; padding-bottom:10mm !important; }
+  .result{ padding-top:13mm; padding-bottom:10mm; }
+  .result h2{ margin-bottom:4mm; }
+  .result .band .score{ padding:3.5mm 0; }
+  .result .band .txt{ padding:3.5mm 6mm; }
 </style>
 </head>
 <body>
@@ -207,15 +259,19 @@
 </section>
 
 <!-- 3. БЛОК 1 -->
-<section class="page block">
+<section class="page opener">
   <div class="art" data-img="img2">ИЛЛЮСТРАЦИЯ 2 · «Тебя вообще находят?» (16:9)</div>
-  <div class="block-head"><span class="block-num">Блок 1</span></div>
+  <div class="opener-body"><div class="block-head"><span class="block-num">Блок 1</span></div>
   <h2>Тебя вообще находят?</h2>
-
+  <p class="lead">Первая ступенька. Если тебя нет в поиске, всё остальное уже не важно: фото, цены и отзывы просто никто не увидит.</p>
+  </div>
+</section>
+<section class="page block">
+  <p class="block-num cont">Тебя вообще находят?</p>
   <div class="item">
     <div class="item-top"><span class="qn">1</span><p class="q">Я знаю 5 главных запросов, по которым ищут мою услугу.</p><div class="yn"><span>да</span><span>нет</span></div></div>
-    <div class="why"><p>Люди ищут своими словами: не «мастер-универсал», а «повесить люстру» или «ремонт ванной под ключ». Если ты не знаешь этих слов, объявление говорит на другом языке и в поиск не попадает.</p></div>
-    <div class="tip"><b>Где смотреть.</b> На Авито: <span class="mono">Аналитика → Аналитика спроса → Поисковые запросы</span>. Работает только с компьютера и только на тарифе Авито PRO. Если его нет, открой бесплатный Яндекс Вордстат (wordstat.yandex.ru), впиши услугу и свой город и выпиши формулировки, которые повторяются чаще всего.</div>
+    <div class="why"><p>Люди ищут своими словами: не «мастер-универсал», а «повесить люстру» или «ремонт ванной под ключ». Не знаешь этих слов — объявление говорит на другом языке и в поиск не попадает.</p></div>
+    <div class="tip"><b>Где смотреть.</b> <span class="mono">Аналитика → Аналитика спроса → Поисковые запросы</span> (с компьютера, на тарифе Авито PRO). Нет PRO — открой бесплатный Яндекс Вордстат, впиши услугу и город и выпиши самые частые формулировки.</div>
   </div>
 
   <div class="item">
@@ -227,16 +283,31 @@
 
   <div class="item">
     <div class="item-top"><span class="qn">3</span><p class="q">Я хотя бы раз в неделю смотрю статистику объявлений, а не только «сколько написали».</p><div class="yn"><span>да</span><span>нет</span></div></div>
-    <div class="why"><p>Статистика показывает, на какой ступеньке теряются люди. Много показов и мало просмотров значит, что не цепляют фото и заголовок. Много просмотров и мало сообщений значит, что проблема в описании, цене или профиле. По одному числу «сколько написали» причину не найти.</p></div>
+    <div class="why"><p>Статистика показывает, на какой ступеньке теряются люди. Показов много, а просмотров мало — не цепляют фото и заголовок. Просмотров много, а сообщений мало — дело в описании, цене или профиле.</p></div>
   </div>
 </section>
 
 <!-- 4. БЛОК 2 -->
-<section class="page block">
-  <div class="art" data-img="img3">ИЛЛЮСТРАЦИЯ 3 · «Видят, но не нажимают» (16:9)</div>
-  <div class="block-head"><span class="block-num">Блок 2</span></div>
+<section class="page opener">
+  <div class="feed-mock">
+    <div class="phone">
+      <div class="fcard"><div class="ph ph1"><i></i></div><b></b><s></s></div>
+      <div class="fcard dull"><div class="ph"><span>ЛОГО</span></div><b></b><s></s></div>
+      <div class="fcard"><div class="ph ph2"><i></i></div><b></b><s></s></div>
+      <div class="fcard"><div class="ph ph3"><i></i></div><b></b><s></s></div>
+    </div>
+    <div class="feed-notes">
+      <div class="fn"><span class="dot hot"></span><span>Фото готовой работы или товара вживую — <b>на него нажимают</b></span></div>
+      <div class="fn"><span class="dot cold"></span><span>Логотип или картинка из интернета — <b>пролистывают, не глядя</b></span></div>
+    </div>
+  </div>
+  <div class="opener-body"><div class="block-head"><span class="block-num">Блок 2</span></div>
   <h2>Тебя видят, но не нажимают?</h2>
-
+  <p class="lead">Тебя показали, а человек пролистал дальше. Здесь решает первое фото и то, насколько твои объявления «чистые» в глазах Авито.</p>
+  </div>
+</section>
+<section class="page block">
+  <p class="block-num cont">Тебя видят, но не нажимают?</p>
   <div class="item">
     <div class="item-top"><span class="qn">4</span><p class="q">Первое фото показывает результат работы, а не логотип или стоковую картинку.</p><div class="yn"><span>да</span><span>нет</span></div></div>
     <div class="why"><p>В ленте человек видит одну картинку и заголовок и решает за секунду. Логотип ему ничего не говорит, сток он узнаёт сразу. А вот твоя готовая работа или товар в деле, снятый вживую, сразу показывают, с кем человек будет иметь дело.</p></div>
@@ -255,16 +326,20 @@
 </section>
 
 <!-- 5. БЛОК 3 -->
-<section class="page block">
+<section class="page opener">
   <div class="art" data-img="img4">ИЛЛЮСТРАЦИЯ 4 · «Нажимают, но не пишут» (16:9)</div>
-  <div class="block-head"><span class="block-num">Блок 3</span></div>
+  <div class="opener-body"><div class="block-head"><span class="block-num">Блок 3</span></div>
   <h2>Нажимают, но не пишут?</h2>
-
+  <p class="lead">Человек открыл объявление, почитал и ушёл. Обычно ему чего-то не хватило, чтобы решиться и написать именно тебе.</p>
   <div class="item">
     <div class="item-top"><span class="qn">7</span><p class="q">В описании понятно: кто я, что делаю, где работаю и сколько примерно стоит.</p><div class="yn"><span>да</span><span>нет</span></div></div>
     <div class="why"><p>Если на эти четыре вопроса нет ответа в первых строках, человеку проще закрыть объявление и открыть соседнее, чем писать и уточнять.</p></div>
     <div class="tip"><b>Шаблон первых строк:</b> «Меня зовут ___, ___ лет делаю ___. Работаю в ___ (районы или город). Цена от ___ ₽ за ___, точнее скажу после фото или замера».</div>
   </div>
+  </div>
+</section>
+<section class="page block">
+  <p class="block-num cont">Нажимают, но не пишут?</p>
 
   <div class="item">
     <div class="item-top"><span class="qn">8</span><p class="q">В профиле есть отзывы и заполнена информация о компании.</p><div class="yn"><span>да</span><span>нет</span></div></div>
@@ -280,16 +355,20 @@
 </section>
 
 <!-- 6. БЛОК 4 -->
-<section class="page block">
+<section class="page opener">
   <div class="art" data-img="img5">ИЛЛЮСТРАЦИЯ 5 · «Деньги уходят в никуда» (16:9)</div>
-  <div class="block-head"><span class="block-num">Блок 4</span></div>
+  <div class="opener-body"><div class="block-head"><span class="block-num">Блок 4</span></div>
   <h2>Деньги уходят в никуда?</h2>
-
+  <p class="lead">Заявки вроде идут, но непонятно, окупаются ли деньги, которые ты отдаёшь Авито. Проверим.</p>
   <div class="item">
     <div class="item-top"><span class="qn">10</span><p class="q">Я знаю, сколько мне стоит одна заявка с Авито.</p><div class="yn"><span>да</span><span>нет</span></div></div>
     <div class="why"><p>Считается за минуту: всё, что потратил на Авито за месяц (тариф, продвижение, размещение), раздели на число обращений за тот же месяц.</p></div>
     <div class="tip"><b>Пример:</b> потратил 15 000 ₽, написали 30 человек. Заявка стоит 500 ₽. Если из них 6 стали заказами, клиент обошёлся в 2 500 ₽. Теперь понятно, окупается это или нет.</div>
   </div>
+  </div>
+</section>
+<section class="page block">
+  <p class="block-num cont">Деньги уходят в никуда?</p>
 
   <div class="item">
     <div class="item-top"><span class="qn">11</span><p class="q">Я включаю продвижение по цифрам, а не «нажал(а), вдруг сработает».</p><div class="yn"><span>да</span><span>нет</span></div></div>
@@ -303,9 +382,8 @@
 </section>
 
 <!-- 7. РЕЗУЛЬТАТ -->
-<section class="page">
+<section class="page result">
   <h2>Считаем «нет»</h2>
-  <p class="lead">Сколько кружков ты отметил?</p>
 
   <div class="bands">
     <div class="band g"><div class="score">0–2<small>«НЕТ»</small></div><div class="txt">У тебя крепкая база. Дальше вопрос масштаба.</div></div>
@@ -320,9 +398,9 @@
     <div class="chips"><span>Бесплатно</span><span>15 минут</span><span>Скажу, что поправить первым</span></div>
     <div class="how">Записаться на разбор: напиши мне в личку в Telegram <a href="https://t.me/ZhennyAv">t.me/ZhennyAv</a> или оставь комментарий под постом в моём канале</div>
     <p style="margin:5mm 0 0;font-size:13pt;color:#D9DDEA">Евгения | @musinpushkina</p>
+    <p style="margin:2mm 0 0;font-size:11pt;color:#9AA2BC">Это разбор для самопроверки, а не гарантия результата.</p>
   </div>
 
-  <p class="disclaimer">Это разбор для самопроверки, а не гарантия результата.</p>
 </section>
 
 </body>
