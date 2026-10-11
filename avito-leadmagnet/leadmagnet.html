@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Почему твой Авито молчит</title>
+<style>
+  :root{
+    --ink:#1E2742;
+    --ink-soft:#4A5370;
+    --accent:#FF6A3D;
+    --accent-soft:#FFE6DA;
+    --paper:#FFF8F1;
+    --card:#FFFFFF;
+    --line:#EEDFD2;
+  }
+  @page{ size:A4; margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Inter",sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    font-size:15.5pt;
+    line-height:1.45;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{
+    width:210mm; min-height:297mm;
+    padding:18mm 18mm 20mm;
+    background:var(--paper);
+    break-after:page; position:relative;
+  }
+  .page:last-child{ break-after:auto; }
+
+  /* ---------- обложка ---------- */
+  .cover{ padding:0; display:flex; flex-direction:column; height:297mm; overflow:hidden; }
+  .cover .art{ height:178mm; border-radius:0; border:none; }
+  .cover .art img{ object-position:center 30%; }
+  .cover-body{ padding:12mm 18mm 0; flex:1; display:flex; flex-direction:column; }
+  .kicker{
+    display:inline-block; align-self:flex-start;
+    background:var(--accent); color:#fff;
+    font-weight:700; font-size:11.5pt; letter-spacing:.08em; text-transform:uppercase;
+    padding:2.2mm 4mm; border-radius:2mm;
+  }
+  .cover h1{
+    font-family:"Inter Display","Inter",sans-serif;
+    font-size:44pt; line-height:1.02; font-weight:800; letter-spacing:-.02em;
+    margin:6mm 0 4mm;
+  }
+  .cover h1 span{ color:var(--accent); }
+  .cover .sub{ font-size:17pt; color:var(--ink-soft); margin:0; }
+  .cover .sign{ margin-top:auto; padding-bottom:12mm; font-size:12.5pt; color:var(--ink-soft); font-weight:600; }
+
+  /* ---------- общие ---------- */
+  h2{
+    font-family:"Inter Display","Inter",sans-serif;
+    font-size:30pt; line-height:1.08; font-weight:800; letter-spacing:-.015em;
+    margin:0 0 4mm;
+  }
+  .lead{ font-size:16.5pt; color:var(--ink-soft); margin:0 0 7mm; }
+  p{ margin:0 0 3mm; }
+  b{ font-weight:700; }
+
+  .art{
+    width:100%; border-radius:5mm; overflow:hidden;
+    background:repeating-linear-gradient(45deg,#F6E9DD 0 6mm,#F1E1D3 6mm 12mm);
+    border:0.6mm dashed #D9BFA8;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    color:#A88B74; font-weight:700; font-size:13pt;
+  }
+  .art.has-img{ border:none; background:none; }
+  .art img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------- как пользоваться ---------- */
+  .howto{ display:flex; gap:5mm; margin:0 0 9mm; }
+  .howto div{
+    flex:1; background:var(--card); border-radius:4mm; padding:5mm;
+    border:0.4mm solid var(--line); font-size:14pt; line-height:1.35;
+  }
+  .howto .n{ display:block; font-size:26pt; font-weight:800; color:var(--accent); line-height:1; margin-bottom:2mm; }
+
+  /* воронка */
+  .funnel-title{ font-size:19pt; font-weight:800; margin:0 0 2mm; }
+  .funnel-note{ font-size:14pt; color:var(--ink-soft); margin:0 0 5mm; }
+  .funnel{ display:flex; flex-direction:column; align-items:center; gap:2.2mm; }
+  .step{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--ink); color:#fff; border-radius:3.5mm;
+    padding:4mm 6mm; font-size:15pt; font-weight:700;
+  }
+  .step small{ font-weight:600; font-size:12pt; color:#FFC9B5; text-align:right; }
+  .step:nth-child(1){ width:100%; }
+  .step:nth-child(2){ width:90%; background:#2F3A5C; }
+  .step:nth-child(3){ width:80%; background:#44507A; }
+  .step:nth-child(4){ width:70%; background:var(--accent); }
+  .step:nth-child(4) small{ color:#fff; }
+
+  .tally{
+    margin-top:9mm; background:var(--accent-soft); border-radius:4mm; padding:5mm 6mm;
+    display:flex; align-items:center; gap:5mm; font-size:14pt; font-weight:600;
+  }
+  .dots{ display:flex; gap:2mm; flex-wrap:wrap; }
+  .dots i{ width:8mm; height:8mm; border-radius:50%; border:0.6mm solid var(--accent); background:#fff; display:block; }
+
+  /* ---------- блоки ---------- */
+  .block-head{ display:flex; align-items:baseline; gap:4mm; margin:7mm 0 2mm; }
+  .block-num{ font-size:13pt; font-weight:800; color:var(--accent); letter-spacing:.08em; text-transform:uppercase; }
+  .block .art{ aspect-ratio:16/8; }
+
+  .item{
+    background:var(--card); border-radius:4.5mm; border:0.4mm solid var(--line);
+    padding:5.5mm 6mm; margin:0 0 4.5mm; break-inside:avoid;
+  }
+  .item-top{ display:flex; gap:4mm; align-items:flex-start; }
+  .qn{
+    flex:none; width:11mm; height:11mm; border-radius:3mm;
+    background:var(--ink); color:#fff; font-weight:800; font-size:15pt;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .q{ font-size:16.5pt; font-weight:700; line-height:1.3; margin:0; flex:1; }
+  .yn{ flex:none; display:flex; gap:2mm; margin-left:2mm; }
+  .yn span{
+    border:0.5mm solid var(--line); border-radius:2mm; padding:1mm 2.6mm;
+    font-size:11.5pt; font-weight:700; color:var(--ink-soft); background:var(--paper);
+  }
+  .why{ margin:3.5mm 0 0 15mm; font-size:14.5pt; color:var(--ink-soft); }
+  .why p:last-child{ margin-bottom:0; }
+  .tip{
+    margin:3.5mm 0 0 15mm; background:var(--accent-soft); border-left:1.6mm solid var(--accent);
+    border-radius:2.5mm; padding:3.5mm 4.5mm; font-size:14pt;
+  }
+  .tip b{ color:var(--accent); }
+  .mono{
+    font-family:"Inter",sans-serif; font-weight:700; background:#fff; border:0.4mm solid var(--line);
+    border-radius:1.5mm; padding:0.4mm 1.8mm; white-space:nowrap;
+  }
+  .swap{ display:flex; flex-direction:column; gap:2mm; margin-top:2mm; }
+  .swap div{ border-radius:2mm; padding:2.4mm 3.5mm; font-weight:700; background:#fff; }
+  .swap .bad{ color:#9A8F88; text-decoration:line-through; text-decoration-thickness:0.4mm; }
+  .swap .good{ color:var(--ink); border:0.5mm solid var(--accent); }
+
+  /* ---------- результат ---------- */
+  .bands{ display:flex; flex-direction:column; gap:4mm; margin:2mm 0 8mm; }
+  .band{ display:flex; border-radius:4.5mm; overflow:hidden; background:var(--card); border:0.4mm solid var(--line); break-inside:avoid; }
+  .band .score{
+    flex:none; width:36mm; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:#fff; font-weight:800; font-size:26pt; line-height:1; padding:5mm 0;
+  }
+  .band .score small{ font-size:11pt; font-weight:700; margin-top:1.5mm; letter-spacing:.05em; }
+  .band .txt{ padding:5mm 6mm; font-size:15pt; display:flex; align-items:center; }
+  .g .score{ background:#2E9E6A; }
+  .y .score{ background:#F2A93B; }
+  .r .score{ background:#E0473A; }
+
+  .cta{
+    background:var(--ink); color:#fff; border-radius:6mm; padding:8mm 8mm 7mm; break-inside:avoid;
+  }
+  .cta h3{ font-family:"Inter Display","Inter",sans-serif; font-size:24pt; line-height:1.1; margin:0 0 3mm; font-weight:800; }
+  .cta p{ font-size:15pt; color:#D9DDEA; }
+  .cta .chips{ display:flex; gap:3mm; flex-wrap:wrap; margin:4mm 0 5mm; }
+  .cta .chips span{ background:rgba(255,255,255,.1); border-radius:10mm; padding:2mm 4.5mm; font-size:13pt; font-weight:700; }
+  .cta .how{ background:var(--accent); color:#fff; border-radius:4mm; padding:4.5mm 5mm; font-size:15pt; font-weight:700; }
+  .cta .how a{ color:#fff; }
+  .final-art{ aspect-ratio:16/9; margin:0 0 7mm; }
+  .disclaimer{ margin-top:6mm; font-size:11.5pt; color:var(--ink-soft); text-align:center; }
+  .todo{ background:#FFF200; color:#000; padding:0 1mm; }
+</style>
+</head>
+<body>
+
+<!-- 1. ОБЛОЖКА -->
+<section class="page cover">
+  <div class="art" data-img="img1">ИЛЛЮСТРАЦИЯ 1 · обложка (3:4)</div>
+  <div class="cover-body">
+    <span class="kicker">Чек-лист · 10 минут</span>
+    <h1>Почему твой Авито <span>молчит</span></h1>
+    <p class="sub">12 честных вопросов, которые покажут, где теряются заявки</p>
+    <div class="sign">Евгения, авитолог | @musinpushkina</div>
+  </div>
+</section>
+
+<!-- 2. КАК ПОЛЬЗОВАТЬСЯ + ВОРОНКА -->
+<section class="page">
+  <h2>Как пройти чек-лист</h2>
+  <p class="lead">Возьми телефон, открой свой профиль на Авито и иди по вопросам по порядку. Займёт минут десять.</p>
+
+  <div class="howto">
+    <div><span class="n">1</span>На каждый вопрос отвечай «да» или «нет». Честно, как есть сейчас, а не как собирался сделать.</div>
+    <div><span class="n">2</span>Отмечай каждое «нет» в кружках внизу страницы. Можно прямо пальцем на экране, никто не увидит.</div>
+    <div><span class="n">3</span>В конце посчитай «нет» и посмотри, что это значит для твоих заявок.</div>
+  </div>
+
+  <p class="funnel-title">Где именно утекают клиенты</p>
+  <p class="funnel-note">Заявка проходит четыре ступеньки. На каждой можно потерять человека, поэтому и вопросы разбиты на четыре блока.</p>
+  <div class="funnel">
+    <div class="step">Тебя находят в поиске <small>блок 1 · вопросы 1–3</small></div>
+    <div class="step">На объявление нажимают <small>блок 2 · вопросы 4–6</small></div>
+    <div class="step">Тебе пишут <small>блок 3 · вопросы 7–9</small></div>
+    <div class="step">Деньги окупаются <small>блок 4 · 10–12</small></div>
+  </div>
+
+  <div class="tally">
+    <span>Мои «нет»:</span>
+    <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<!-- 3. БЛОК 1 -->
+<section class="page block">
+  <div class="art" data-img="img2">ИЛЛЮСТРАЦИЯ 2 · «Тебя вообще находят?» (16:9)</div>
+  <div class="block-head"><span class="block-num">Блок 1</span></div>
+  <h2>Тебя вообще находят?</h2>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">1</span><p class="q">Я знаю 5 главных запросов, по которым ищут мою услугу.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Люди ищут своими словами: не «мастер-универсал», а «повесить люстру» или «ремонт ванной под ключ». Если ты не знаешь этих слов, объявление говорит на другом языке и в поиск не попадает.</p></div>
+    <div class="tip"><b>Где смотреть.</b> На Авито: <span class="mono">Аналитика → Аналитика спроса → Поисковые запросы</span>. Работает только с компьютера и только на тарифе Авито PRO. Если его нет, открой бесплатный Яндекс Вордстат (wordstat.yandex.ru), впиши услугу и свой город и выпиши формулировки, которые повторяются чаще всего.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">2</span><p class="q">Эти запросы стоят в заголовке и первых строках описания.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>«Качественный ремонт недорого» так никто не ищет. Заголовок должен совпадать с тем, что человек набирает в строке поиска.</p>
+      <div class="swap"><div class="bad">Качественный ремонт недорого</div><div class="good">Ремонт ванной под ключ, плитка, сантехника</div></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">3</span><p class="q">Я хотя бы раз в неделю смотрю статистику объявлений, а не только «сколько написали».</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Статистика показывает, на какой ступеньке теряются люди. Много показов и мало просмотров значит, что не цепляют фото и заголовок. Много просмотров и мало сообщений значит, что проблема в описании, цене или профиле. По одному числу «сколько написали» причину не найти.</p></div>
+  </div>
+</section>
+
+<!-- 4. БЛОК 2 -->
+<section class="page block">
+  <div class="art" data-img="img3">ИЛЛЮСТРАЦИЯ 3 · «Видят, но не нажимают» (16:9)</div>
+  <div class="block-head"><span class="block-num">Блок 2</span></div>
+  <h2>Тебя видят, но не нажимают?</h2>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">4</span><p class="q">Первое фото показывает результат работы, а не логотип или стоковую картинку.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>В ленте человек видит одну картинку и заголовок и решает за секунду. Логотип ему ничего не говорит, сток он узнаёт сразу. А вот твоя готовая работа или товар в деле, снятый вживую, сразу показывают, с кем человек будет иметь дело.</p></div>
+    <div class="tip"><b>Что поставить первым:</b> для услуг — готовый результат при дневном свете или «до/после» на одной картинке. Для товаров — живое фото товара в руках или в интерьере, а не белый фон с сайта поставщика.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">5</span><p class="q">У меня нет объявлений с одинаковыми фото и текстами.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Дубли нарушают правила Авито: такие объявления могут отклонить или заблокировать, и показы падают у всех сразу. Исключение — одинаковые фото и тексты в объявлениях для разных городов.</p></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">6</span><p class="q">В тексте и на фото нет телефонов, ссылок и названий мессенджеров.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Авито такое не пропускает: объявление уходит на доработку или в блок. В сообщениях тоже не пиши контакты в лоб, делись ими только проверенными способами, которые не нарушают правила.</p></div>
+  </div>
+</section>
+
+<!-- 5. БЛОК 3 -->
+<section class="page block">
+  <div class="art" data-img="img4">ИЛЛЮСТРАЦИЯ 4 · «Нажимают, но не пишут» (16:9)</div>
+  <div class="block-head"><span class="block-num">Блок 3</span></div>
+  <h2>Нажимают, но не пишут?</h2>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">7</span><p class="q">В описании понятно: кто я, что делаю, где работаю и сколько примерно стоит.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Если на эти четыре вопроса нет ответа в первых строках, человеку проще закрыть объявление и открыть соседнее, чем писать и уточнять.</p></div>
+    <div class="tip"><b>Шаблон первых строк:</b> «Меня зовут ___, ___ лет делаю ___. Работаю в ___ (районы или город). Цена от ___ ₽ за ___, точнее скажу после фото или замера».</div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">8</span><p class="q">В профиле есть отзывы и заполнена информация о компании.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Прежде чем написать незнакомому продавцу или пустить мастера домой, человек открывает профиль. Пустой профиль без отзывов выглядит как «вчера зарегистрировался».</p></div>
+    <div class="tip"><b>Как собрать отзывы:</b> проси сразу после сдачи работы, пока клиент доволен и ещё держит телефон в руках.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">9</span><p class="q">Я отвечаю на сообщения быстро, а не вечером после объекта.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Клиент обычно пишет сразу нескольким мастерам и договаривается с тем, кто ответил первым. К вечеру он уже нашёл другого. Плюс Авито показывает в профиле, как быстро ты отвечаешь.</p></div>
+    <div class="tip"><b>Если руки заняты:</b> заготовь шаблоны ответов в мессенджере Авито, чтобы ответить за 10 секунд между делом.</div>
+  </div>
+</section>
+
+<!-- 6. БЛОК 4 -->
+<section class="page block">
+  <div class="art" data-img="img5">ИЛЛЮСТРАЦИЯ 5 · «Деньги уходят в никуда» (16:9)</div>
+  <div class="block-head"><span class="block-num">Блок 4</span></div>
+  <h2>Деньги уходят в никуда?</h2>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">10</span><p class="q">Я знаю, сколько мне стоит одна заявка с Авито.</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Считается за минуту: всё, что потратил на Авито за месяц (тариф, продвижение, размещение), раздели на число обращений за тот же месяц.</p></div>
+    <div class="tip"><b>Пример:</b> потратил 15 000 ₽, написали 30 человек. Заявка стоит 500 ₽. Если из них 6 стали заказами, клиент обошёлся в 2 500 ₽. Теперь понятно, окупается это или нет.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">11</span><p class="q">Я включаю продвижение по цифрам, а не «нажал(а), вдруг сработает».</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Продвижение даёт больше показов, но не делает объявление лучше. Если объявление и так плохо превращает просмотры в сообщения, ты просто платишь за то, чтобы больше людей его пролистали. Сначала исправь блоки 1–3, потом усиливай то, что уже работает.</p></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top"><span class="qn">12</span><p class="q">Я не пользуюсь накрутками и сервисами «поднимем просмотры за 500 рублей».</p><div class="yn"><span>да</span><span>нет</span></div></div>
+    <div class="why"><p>Боты ничего не покупают и ничего не заказывают. Накрученные просмотры ломают твою же статистику, и ты перестаёшь понимать, что работает. А ещё это прямой риск блокировки аккаунта.</p></div>
+  </div>
+</section>
+
+<!-- 7. РЕЗУЛЬТАТ -->
+<section class="page">
+  <h2>Считаем «нет»</h2>
+  <p class="lead">Сколько кружков ты отметил?</p>
+
+  <div class="bands">
+    <div class="band g"><div class="score">0–2<small>«НЕТ»</small></div><div class="txt">У тебя крепкая база. Дальше вопрос масштаба.</div></div>
+    <div class="band y"><div class="score">3–5<small>«НЕТ»</small></div><div class="txt">Авито показывает тебя кусками, часть заявок уходит конкурентам.</div></div>
+    <div class="band r"><div class="score">6+<small>«НЕТ»</small></div><div class="txt">Ты платишь Авито за то, чтобы тебя не нашли.</div></div>
+  </div>
+
+  <div class="art final-art" data-img="img6">ИЛЛЮСТРАЦИЯ 6 · финал (16:9)</div>
+
+  <div class="cta">
+    <h3>Набралось 3 и больше? Давай посмотрим твой профиль вместе</h3>
+    <div class="chips"><span>Бесплатно</span><span>15 минут</span><span>Скажу, что поправить первым</span></div>
+    <div class="how">Записаться на разбор: напиши мне в личку в Telegram <a href="https://t.me/ZhennyAv">t.me/ZhennyAv</a> или оставь комментарий под постом в моём канале</div>
+    <p style="margin:5mm 0 0;font-size:13pt;color:#D9DDEA">Евгения | @musinpushkina</p>
+  </div>
+
+  <p class="disclaimer">Это разбор для самопроверки, а не гарантия результата.</p>
+</section>
+
+</body>
+</html>
