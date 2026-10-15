@@ -158,6 +158,38 @@
   .cover h1{ font-size:50pt; line-height:.98; font-weight:900; letter-spacing:-.01em; word-spacing:.05em; margin:2mm 0 6mm; }
   .cover .sub{ font-size:16.5pt; line-height:1.4; color:#C9CED8; max-width:160mm; margin:0; }
   .cover .hero{ flex:1; margin:9mm 0 8mm; position:relative; }
+  .cover .hero.has-img{ flex:none; height:128mm; margin:8mm -17mm 9mm; border-radius:0; }
+  .cover .hero.has-img img{ object-position:center 55%; }
+  .cover .hero.has-img::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, #0F1B2D 0%, rgba(15,27,45,0) 18%, rgba(15,27,45,0) 82%, #0F1B2D 100%); }
+  /* мини-диалоги */
+  .mini{ display:flex; flex-direction:column; gap:2.6mm; }
+  .mini .row{ display:grid; grid-template-columns:44mm 1fr; gap:4mm; align-items:center; background:var(--paper); border:0.4mm solid var(--line); border-radius:3.5mm; padding:2.8mm 4.5mm; }
+  .mini .row .q{ font-family:"Inter Tight"; font-weight:800; font-size:15pt; }
+  .mini .row .a{ font-size:14pt; line-height:1.38; }
+  /* сравнительная сетка */
+  .grid5{ background:var(--paper); border:0.4mm solid var(--line); border-radius:4mm; overflow:hidden; }
+  .grid5 .r{ display:grid; grid-template-columns:1fr 30mm 30mm; align-items:center; border-top:0.3mm solid var(--line); padding:2.6mm 5mm; font-size:14pt; }
+  .grid5 .r:first-child{ border-top:none; }
+  .grid5 .r.h{ font-family:"JetBrains Mono"; font-size:8.5pt; letter-spacing:.18em; text-transform:uppercase; color:var(--grey); padding:3mm 5mm; }
+  .grid5 .r span:nth-child(n+2){ text-align:center; }
+  .grid5 .r .t{ display:flex; align-items:center; gap:3mm; }
+  .grid5 .r .t .n{ width:7.5mm; height:7.5mm; font-size:9.5pt; }
+  .yes{ color:var(--blue); font-family:"Inter Tight"; font-weight:900; font-size:15pt; }
+  .no{ color:var(--steel); font-family:"Inter Tight"; font-weight:900; font-size:15pt; }
+  .p9 .tpl .l{ font-size:14.6pt; margin-bottom:2.6mm; }
+  .p9 .box{ padding:4.5mm 5.5mm; }
+  .p9 .box h3{ margin-bottom:1mm; }
+  /* финал */
+  .final h2{ font-size:42pt; line-height:1; margin-bottom:8mm; color:var(--paper); }
+  .final p{ color:#C9CED8; }
+  .kit{ background:#16243A; border:0.4mm solid #26354F; border-radius:5mm; padding:6mm 6.5mm; margin:4mm 0 9mm; }
+  .kit .tag{ font-family:"JetBrains Mono"; font-size:9pt; letter-spacing:.2em; text-transform:uppercase; color:#8A93A3; margin-bottom:4mm; }
+  .kit .it{ display:flex; align-items:center; gap:4mm; padding:3.4mm 0; border-top:0.3mm solid #26354F; font-family:"Inter Tight"; font-weight:800; font-size:17pt; color:var(--paper); }
+  .kit .it:first-of-type{ border-top:none; }
+  .kit .it small{ margin-left:auto; font-family:"JetBrains Mono"; font-weight:700; font-size:9.5pt; letter-spacing:.16em; text-transform:uppercase; color:var(--blue); }
+  .final .pill{ display:flex; justify-content:space-between; width:100%; padding:7mm 9mm; font-size:21pt; }
+  .final .pill small{ font-size:12.5pt; }
+  .final .beam{ margin-top:auto; margin-bottom:6mm; }
   .cover .sign{ display:flex; justify-content:space-between; align-items:center; font-family:"JetBrains Mono"; font-size:10.5pt; letter-spacing:.15em; text-transform:uppercase; color:#8A93A3; }
   .hero-fallback{ position:absolute; inset:0; }
   .hero-fallback .ghost{
@@ -324,17 +356,18 @@
   <h2>А если написали <em>только «Актуально?»</em></h2>
   <p>Самое частое первое сообщение. И самая частая ошибка в ответ: «Да». Вопрос закрыт, разговор тоже. Человек получил ответ, и продолжать ему не за что.</p>
   <p style="margin-bottom:7mm">Поэтому на «Актуально?» сразу возвращаем вопрос, причём такой, на который легко ответить:</p>
-  <div class="tpl" style="margin-bottom:8mm">
+  <div class="tpl" style="margin-bottom:5mm">
     <div class="tag"><span>Ответ · вариант</span><b>[ ] = ваше</b></div>
     <div class="l"><span class="n">1</span><p>Здравствуйте! Да, актуально, меня зовут <span class="ph">[имя]</span>.</p></div>
     <div class="l"><span class="n">2</span><p>От того, для чего баня, зависит половина цены, хочу сразу посчитать правильный вариант.</p></div>
     <div class="l"><span class="n">5</span><p><b>Подскажите, вы смотрите <span class="ph">[баню]</span> для круглого года или на лето?</b></p></div>
   </div>
-  <div class="vs">
-    <div class="box dead"><span class="x">Было</span><p style="font-size:15pt"><span class="strike">«Да»</span></p><p class="note">Ответили и закрыли разговор</p></div>
-    <div class="box"><span class="ok">Стало</span><p style="font-size:15pt">«Да» + вопрос с выбором</p><p class="note">Клиенту есть что ответить, а вам есть что посчитать</p></div>
+  <h3 style="font-size:18pt;font-weight:800;margin-bottom:3.5mm">Другие короткие первые сообщения</h3>
+  <div class="mini">
+    <div class="row"><span class="q">«Цена?»</span><span class="a">От <span class="ph">[Х]</span> ₽, зависит от размера. <b>Какой размер вам нужен?</b></span></div>
+    <div class="row"><span class="q">«Здравствуйте»</span><span class="a">Здравствуйте! Меня зовут <span class="ph">[имя]</span>. <b>Что присматриваете: <span class="ph">[баню, бытовку или дом]</span>?</b></span></div>
+    <div class="row"><span class="q">«Ещё есть?»</span><span class="a">Да, есть. <b>Вам для дачи или для постоянного жилья?</b></span></div>
   </div>
-  <p class="note">Когда человек ответит, дальше идёте по основному шаблону: цена вилкой, совет, предложение созвониться.</p>
 </section>
 
 <!-- 08 Шаблон 02 -->
@@ -354,26 +387,30 @@
 </section>
 
 <!-- 09 Шаблон 02: адаптация -->
-<section class="page">
+<section class="page p9">
   <div class="meta"><span>Шаблон / 02 · под ваш продукт</span><span>09</span></div>
   <div class="beam short"></div>
   <h2>Как переложить <em>на окна и гранит</em></h2>
-  <p style="margin-bottom:7mm">Каркас тот же. Меняете только деталь 2 (от чего зависит цена) и деталь 3 (совет). Вот готовые заготовки:</p>
-  <div class="box" style="margin-bottom:5mm">
-    <h3>Окна</h3>
-    <div class="tpl" style="box-shadow:none;padding:4.5mm 5mm;margin-top:3mm">
+  <p style="margin-bottom:5mm">Каркас тот же, меняете только детали 2 и 3. Готовые заготовки:</p>
+  <div style="margin-bottom:5mm">
+    <h3 style="font-size:18pt;font-weight:800">Окна</h3>
+    <div class="tpl" style="padding:4.5mm 5mm;margin-top:2.5mm">
       <div class="l"><span class="n">2</span><p>Цена зависит от профиля, стеклопакета и монтажа.</p></div>
       <div class="l"><span class="n">3</span><p>В жилые комнаты лучше ставить двухкамерный стеклопакет: однокамерный зимой чаще потеет и тянет холодом.</p></div>
       <div class="l"><span class="n">4</span><p>Созвонимся на 5 минут: уточню размеры проёмов и назову цену сразу с монтажом.</p></div>
     </div>
   </div>
-  <div class="box">
-    <h3>Гранит</h3>
-    <div class="tpl" style="box-shadow:none;padding:4.5mm 5mm;margin-top:3mm">
+  <div>
+    <h3 style="font-size:18pt;font-weight:800">Гранит</h3>
+    <div class="tpl" style="padding:4.5mm 5mm;margin-top:2.5mm">
       <div class="l"><span class="n">2</span><p>Цена зависит от размера, толщины и обработки поверхности.</p></div>
       <div class="l"><span class="n">3</span><p>Для уличных ступеней берите термообработанную поверхность: полированная зимой скользкая, как каток.</p></div>
       <div class="l"><span class="n">4</span><p>Созвонимся на 5 минут: по размерам скажу точную цену и сроки.</p></div>
     </div>
+  </div>
+  <div class="tpl" style="margin-top:3mm;background:var(--ink);color:var(--paper);border-color:var(--ink)">
+    <div class="tag"><span style="color:#8A93A3">Формула совета · для любого продукта</span><b>деталь 3</b></div>
+    <div class="l"><span class="n">3</span><p style="font-size:16pt">Многие экономят на <span class="ph" style="background:#1E3A66;color:#9CC7FF">[чём]</span>, а потом <span class="ph" style="background:#1E3A66;color:#9CC7FF">[что ломается и во сколько обходится]</span>. Лучше обсудить это до расчёта.</p></div>
   </div>
 </section>
 
@@ -401,18 +438,19 @@
   <div class="meta"><span>Шаблон / 03 · разбор</span><span>11</span></div>
   <div class="beam short"></div>
   <h2>Видите разницу? <em>Цифра почти та же</em></h2>
-  <p>«450 000» и «от 360 до 480 тысяч» по деньгам почти одно и то же. Но теперь видно, откуда цифра взялась, и понятно, что делать дальше. Человеку больше не надо гадать, дорого это или нет: ему объяснили и предложили спокойно поговорить.</p>
-  <div class="chain" style="margin:7mm 0 9mm">
-    <div class="st"><small>Было</small>Голая цифра</div>
-    <div class="ar">→</div>
-    <div class="st"><small>Сделали</small>Вилка + почему + совет</div>
-    <div class="ar">→</div>
-    <div class="st goal"><small>Стало</small>Повод позвонить</div>
-  </div>
+  <p style="margin-bottom:7mm">«450 000» и «от 360 до 480 тысяч» по деньгам почти одно и то же. Но теперь видно, откуда цифра взялась, и понятно, что делать дальше. Человеку больше не надо гадать, дорого это или нет: ему объяснили и предложили спокойно поговорить.</p>
   <div class="box">
     <h3>Подходит для любых работ с выездом</h3>
     <p>Кровля, заборы, септики, ремонт. Везде цена зависит от того, что видно только на месте. Значит, звонок и фото здесь нужны клиенту не меньше, чем вам. Так и пишите.</p>
     <div class="chips" style="margin-top:4mm"><span class="chip">Кровля</span><span class="chip">Заборы</span><span class="chip">Септики</span><span class="chip">Ремонт</span><span class="chip">Благоустройство</span></div>
+  </div>
+  <div class="grid5" style="margin-top:6mm">
+    <div class="r h"><span>Пять деталей</span><span>«450 000»</span><span>Новый ответ</span></div>
+    <div class="r"><span class="t"><span class="n">1</span>Приветствие и имя</span><span class="no">✕</span><span class="yes">✓</span></div>
+    <div class="r"><span class="t"><span class="n">2</span>Цена и из чего она</span><span class="no" style="color:var(--grey);font-size:12pt">только цифра</span><span class="yes">✓</span></div>
+    <div class="r"><span class="t"><span class="n">3</span>Совет</span><span class="no">✕</span><span class="yes">✓</span></div>
+    <div class="r"><span class="t"><span class="n">4</span>Зачем звонить</span><span class="no">✕</span><span class="yes">✓</span></div>
+    <div class="r"><span class="t"><span class="n">5</span>Вопрос в конце</span><span class="no">✕</span><span class="yes">✓</span></div>
   </div>
 </section>
 
@@ -471,19 +509,23 @@
   </div>
 </section>
 
-<!-- 14 Финал -->
-<section class="page">
+<!-- 15 Финал -->
+<section class="page dark final">
   <div class="meta"><span>Авитолог / Финал</span><span>15</span></div>
   <div class="beam short"></div>
   <h2>Переписка → разговор → <em>сделка</em></h2>
   <p>Это ниши, с которыми мы с мужем работали сами: бани и модульные дома, брусчатка, окна, гранит, асфальт. Шаблоны собраны из живых переписок, поэтому берите и подставляйте свои цифры.</p>
-  <p>Когда мы берём кабинет Авито на ведение, скрипты под нишу пишем бесплатно. Реклама приводит человека в чат, а дальше важно, чтобы переписка превратилась в разговор, а разговор в сделку. Иначе реклама просто красиво тратит деньги)</p>
-  <div class="box" style="margin:6mm 0 10mm">
-    <div class="chips"><span class="chip">Объявления</span><span class="chip">Реклама внутри Авито</span><span class="chip">Скрипты для чата бесплатно</span></div>
+  <p>Реклама приводит человека в чат, а дальше важно, чтобы переписка превратилась в разговор, а разговор в сделку. Иначе реклама просто красиво тратит деньги)</p>
+  <div class="kit">
+    <div class="tag">Комплект / Ведение кабинета Авито</div>
+    <div class="it"><span class="n">1</span>Объявления, которые находят</div>
+    <div class="it"><span class="n">2</span>Реклама внутри Авито</div>
+    <div class="it"><span class="n">3</span>Скрипты для чата под вашу нишу<small>Бесплатно</small></div>
   </div>
-  <p class="lead" style="margin-bottom:6mm">Больше разборов переписок и объявлений в моём Telegram-канале:</p>
+  <p class="lead" style="color:var(--paper);margin-bottom:6mm">Больше разборов переписок и объявлений в моём Telegram-канале:</p>
   <a class="pill" href="https://t.me/avitointellect">Перейти в канал <small>t.me/avitointellect</small></a>
-  <div style="margin-top:auto" class="meta"><span>Евгения | @musinpushkina</span><span>Авитолог</span></div>
+  <div class="beam"></div>
+  <div class="meta" style="margin-bottom:0"><span>Евгения | @musinpushkina</span><span>Авитолог</span></div>
 </section>
 
 </body>

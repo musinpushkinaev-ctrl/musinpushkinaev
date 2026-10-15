@@ -24,7 +24,7 @@ function findImg(name) {
   await page.evaluate((imgs) => {
     document.querySelectorAll('.art[data-img]').forEach((el) => {
       const src = imgs[el.dataset.img];
-      if (src) el.innerHTML = `<img src="file://${src}">`;
+      if (src) { el.innerHTML = `<img src="file://${src}">`; el.classList.add("has-img"); }
     });
   }, Object.fromEntries([...new Set(await page.$$eval('.art[data-img]', (els) => els.map((e) => e.dataset.img)))].map((n) => [n, findImg(n)])));
   await page.evaluate(() => document.fonts.ready);
