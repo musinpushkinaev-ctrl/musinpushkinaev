@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Шаблон прайса для услуг на Авито</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  :root{
+    --concrete:#ECE9E4;
+    --paper:#F8F7F4;
+    --ink:#0F1B2D;
+    --blue:#2E8BFF;
+    --lime:#C8F03C;
+    --grey:#7A766F;
+    --steel:#B8B3AB;
+    --blue-soft:#DCEBFF;
+    --line:#DAD6CF;
+  }
+  @page{ size:A4; margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Onest",sans-serif; color:var(--ink); background:var(--concrete);
+    font-size:15.5pt; line-height:1.45;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{
+    width:210mm; height:297mm; overflow:hidden; position:relative;
+    padding:16mm 17mm 16mm; background:var(--concrete);
+    break-after:page; display:flex; flex-direction:column;
+  }
+  .page:last-child{ break-after:auto; }
+  .dark{ background:var(--ink); color:var(--paper); }
+
+  /* микрометка + сквозная линия */
+  .meta{
+    font-family:"JetBrains Mono",monospace; font-weight:500; font-size:9.5pt;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--grey);
+    display:flex; justify-content:space-between; margin-bottom:3.5mm;
+  }
+  .dark .meta{ color:#8A93A3; }
+  .beam{
+    position:relative; height:0.5mm; margin:0 -17mm 10mm; background:var(--blue);
+    box-shadow:0 0 2mm rgba(46,139,255,.9), 0 0 6mm rgba(46,139,255,.45);
+  }
+  .beam.short{ margin-right:60mm; }
+
+  h1,h2,h3{ font-family:"Inter Tight",sans-serif; margin:0; letter-spacing:-.005em; word-spacing:.04em; }
+  h2{ font-size:34pt; line-height:1.02; font-weight:900; margin-bottom:7mm; }
+  h2 em, h1 em, h3 em{ font-style:normal; color:var(--blue); }
+  p{ margin:0 0 4mm; }
+  .lead{ font-size:17pt; line-height:1.4; }
+  .muted{ color:var(--grey); }
+  b{ font-weight:700; }
+  .note{ font-size:14pt; color:var(--grey); line-height:1.4; }
+  .dark .note{ color:#9AA3B2; }
+
+  .n{
+    flex:none; width:9mm; height:9mm; border-radius:50%; border:0.5mm solid var(--blue); color:var(--blue);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono"; font-weight:700; font-size:11pt; line-height:1;
+  }
+  .x, .ok{ font-family:"JetBrains Mono"; font-weight:700; font-size:9.5pt; letter-spacing:.18em; text-transform:uppercase; margin-bottom:2.5mm; display:block; }
+  .x{ color:var(--grey); }
+  .ok{ color:var(--blue); }
+  .ph{ color:var(--blue); background:var(--blue-soft); border-radius:1.2mm; padding:0 1.2mm; font-weight:600; white-space:nowrap; }
+
+  .box{ background:var(--paper); border-radius:4mm; border:0.4mm solid var(--line); padding:5.5mm 6mm; }
+  .box h3{ font-size:17pt; font-weight:800; margin-bottom:2.5mm; }
+  .box p{ font-size:14.5pt; margin-bottom:2.5mm; }
+  .box p:last-child{ margin-bottom:0; }
+
+  .pill{
+    display:inline-flex; align-items:center; gap:3mm; background:var(--lime); color:var(--ink);
+    border-radius:20mm; padding:5mm 9mm; font-family:"Inter Tight"; font-weight:800; font-size:17pt; text-decoration:none;
+  }
+  .pill small{ font-family:"JetBrains Mono"; font-weight:700; font-size:11pt; letter-spacing:.05em; }
+
+  .art{ border-radius:5mm; overflow:hidden; position:relative; }
+  .art img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------- мини-прайс (обложка и сравнение) ---------- */
+  .mp{ background:var(--paper); color:var(--ink); border:0.4mm solid var(--line); border-radius:4mm; overflow:hidden; }
+  .mp .r{ display:flex; justify-content:space-between; gap:4mm; padding:2.4mm 4.5mm; border-top:0.3mm solid var(--line); font-size:14pt; line-height:1.25; }
+  .mp .r:first-child{ border-top:none; }
+  .mp .r .p{ flex:none; color:var(--grey); white-space:nowrap; }
+  .mp .r.more{ font-family:"JetBrains Mono"; font-size:9pt; letter-spacing:.16em; text-transform:uppercase; color:var(--blue); justify-content:center; }
+  .mp.poor .r{ font-size:14.5pt; padding:3.4mm 4.5mm; }
+  .blank{ display:inline-block; width:12mm; border-bottom:0.35mm solid var(--steel); margin:0 1mm; transform:translateY(-.8mm); }
+
+  /* ---------- обложка ---------- */
+  .cover{ padding:16mm 17mm 14mm; }
+  .cover h1{ font-size:48pt; line-height:.99; font-weight:900; letter-spacing:-.01em; word-spacing:.05em; margin:2mm 0 6mm; }
+  .cover .sub{ font-size:16.5pt; line-height:1.4; color:#C9CED8; max-width:165mm; margin:0; }
+  .cover .hero{ flex:1; margin:9mm 0 8mm; position:relative; }
+  .cover .hero.has-img{ flex:none; height:128mm; margin:8mm -17mm 9mm; border-radius:0; }
+  .cover .hero.has-img img{ object-position:center 55%; }
+  .cover .hero.has-img::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, #0F1B2D 0%, rgba(15,27,45,0) 18%, rgba(15,27,45,0) 82%, #0F1B2D 100%); }
+  .cover .sign{ display:flex; justify-content:space-between; align-items:center; font-family:"JetBrains Mono"; font-size:10.5pt; letter-spacing:.15em; text-transform:uppercase; color:#8A93A3; }
+  .hero-fallback{ position:absolute; inset:0; }
+  .hero-fallback .ghost{
+    position:absolute; left:0; top:6mm; width:74mm; background:#1A2840; color:#6F7B8F; border-radius:4mm;
+    padding:5mm 5.5mm; transform:rotate(-4deg); font-size:13pt; line-height:1.3;
+  }
+  .hero-fallback .ghost .gr{ display:flex; justify-content:space-between; gap:3mm; padding:2mm 0; border-top:0.3mm solid #26354F; }
+  .hero-fallback .ghost .gr:first-of-type{ border-top:none; }
+  .hero-fallback .ghost .gr span:first-child{ text-decoration:line-through; text-decoration-color:#6F7B8F; text-decoration-thickness:.5mm; }
+  .hero-fallback .ghost small{ display:block; font-family:"JetBrains Mono"; font-weight:500; font-size:8.5pt; letter-spacing:.2em; text-transform:uppercase; margin-bottom:2mm; }
+  .hero-fallback .beamx{
+    position:absolute; left:-17mm; right:-17mm; top:40%; height:.6mm; background:var(--blue);
+    box-shadow:0 0 2mm rgba(46,139,255,1), 0 0 8mm rgba(46,139,255,.6);
+  }
+  .hero-fallback .card{ position:absolute; right:0; bottom:0; width:112mm; box-shadow:0 4mm 14mm rgba(0,0,0,.45); border:none; }
+  .hero-fallback .card .r{ font-size:13pt; padding:2.2mm 5mm; }
+  .hero-fallback .card .g{ font-family:"JetBrains Mono"; font-size:8.5pt; letter-spacing:.18em; text-transform:uppercase; color:var(--blue); padding:3mm 5mm 1mm; background:var(--paper); }
+
+  /* ---------- сравнение ---------- */
+  .vs{ display:flex; gap:5mm; margin:0 0 7mm; align-items:flex-start; }
+  .vs > div{ flex:1; }
+  .dead{ opacity:.6; }
+
+  /* две задачи */
+  .two{ display:flex; gap:5mm; margin-bottom:7mm; }
+  .two .box{ flex:1; padding:5mm 5.5mm; }
+  .two .box h3{ display:flex; align-items:center; gap:3mm; font-size:17pt; }
+  .two .box p{ font-size:14pt; line-height:1.4; }
+
+  .words{ background:var(--paper); border:0.4mm solid var(--line); border-radius:4mm; overflow:hidden; }
+  .words .r{ display:grid; grid-template-columns:1fr 9mm 1fr; align-items:center; padding:2.6mm 5mm; border-top:0.3mm solid var(--line); font-size:14.5pt; line-height:1.25; }
+  .words .r:first-child{ border-top:none; }
+  .words .r.h{ font-family:"JetBrains Mono"; font-size:8.8pt; letter-spacing:.18em; text-transform:uppercase; color:var(--grey); padding:3mm 5mm; }
+  .words .r span:first-child{ color:var(--grey); }
+  .words .r span:last-child{ font-weight:700; }
+  .words .r .ar{ color:var(--blue); font-family:"Inter Tight"; font-weight:900; text-align:center; }
+
+  /* источники */
+  .src{ display:flex; gap:5mm; background:var(--paper); border:0.4mm solid var(--line); border-radius:4mm; padding:5mm 5.5mm; margin-bottom:3.5mm; }
+  .src h3{ font-size:17pt; font-weight:800; margin-bottom:1.5mm; }
+  .src p{ font-size:14.2pt; line-height:1.4; margin:0 0 2mm; }
+  .src p:last-child{ margin-bottom:0; }
+  .q{ display:inline-block; font-family:"JetBrains Mono"; font-size:11pt; letter-spacing:.02em; background:var(--concrete); border-radius:1.5mm; padding:.4mm 2mm; margin:.6mm 0; white-space:nowrap; }
+  .q b{ color:var(--blue); }
+
+  /* правила */
+  .rules{ display:flex; flex-direction:column; gap:3mm; }
+  .rule{ display:flex; gap:4.5mm; background:var(--paper); border:0.4mm solid var(--line); border-radius:4mm; padding:4.2mm 5mm; }
+  .rule h3{ font-size:16.5pt; font-weight:800; margin-bottom:1mm; }
+  .rule p{ margin:0 0 2mm; font-size:14pt; line-height:1.36; }
+  .rule .ex{ display:flex; gap:5mm; font-size:14pt; line-height:1.3; }
+  .rule .ex > div{ flex:1; }
+  .rule .ex .x, .rule .ex .ok{ font-size:8.5pt; margin-bottom:.8mm; }
+  .rule .ex .bad{ color:var(--grey); text-decoration:line-through; text-decoration-color:var(--steel); }
+  .rule .ex .good{ font-weight:700; }
+
+  /* как пользоваться */
+  .steps{ display:flex; flex-direction:column; gap:3mm; margin-bottom:7mm; }
+  .steps div{ display:flex; gap:4.5mm; align-items:flex-start; background:var(--paper); border:0.4mm solid var(--line); border-radius:3.5mm; padding:4mm 5mm; font-size:15pt; line-height:1.38; }
+
+  /* ---------- шаблон прайса ---------- */
+  .niche-head{ display:flex; gap:6mm; align-items:flex-end; margin-bottom:5mm; }
+  .big-num{ font-family:"Inter Tight"; font-weight:900; font-size:66pt; line-height:.8; color:var(--blue); letter-spacing:-.04em; }
+  .niche-head h2{ margin:0; font-size:27pt; line-height:1.05; }
+  .niche-sub{ font-family:"Onest"; font-size:14pt; color:var(--grey); margin:2mm 0 0; line-height:1.3; }
+  .cont{ font-family:"Inter Tight"; font-weight:900; font-size:22pt; margin-bottom:5mm; }
+  .cont em{ font-style:normal; color:var(--blue); }
+  .price{ flex:none; background:var(--paper); border:0.4mm solid var(--line); border-radius:4mm; overflow:hidden; box-shadow:0 1.5mm 5mm rgba(15,27,45,.06); }
+  .price .g{ display:flex; justify-content:space-between; font-family:"JetBrains Mono"; font-weight:700; font-size:9pt; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); background:#EFEDE8; padding:2.3mm 5mm; border-top:0.4mm solid var(--line); }
+  .price .g:first-child{ border-top:none; }
+  .price .g span:last-child{ color:var(--grey); font-weight:500; }
+  .price .r{ display:grid; grid-template-columns:8mm 1fr 15mm 30mm; align-items:center; padding:1.3mm 5mm; border-top:0.3mm solid var(--line); font-size:14pt; line-height:1.2; }
+  .price .r .i{ font-family:"JetBrains Mono"; font-size:9pt; color:var(--blue); font-weight:700; }
+  .price .r .t{ font-weight:600; padding-right:3mm; }
+  .price .r .u{ font-family:"JetBrains Mono"; font-size:9.5pt; color:var(--grey); text-align:center; }
+  .price .r .p{ color:var(--grey); text-align:right; white-space:nowrap; }
+  .price .r .p .blank{ width:13mm; }
+
+  .arw{ width:.82em; height:.82em; vertical-align:-.04em; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* чек-лист */
+  .check{ display:flex; flex-direction:column; gap:3mm; margin-bottom:7mm; }
+  .check div{ display:flex; gap:4mm; align-items:center; background:var(--paper); border:0.4mm solid var(--line); border-radius:3.5mm; padding:3.8mm 5mm; font-size:15pt; font-weight:600; line-height:1.3; }
+  .check i{ flex:none; width:7.5mm; height:7.5mm; border:0.5mm solid var(--ink); border-radius:1.6mm; }
+
+  /* финал */
+  .final h2{ font-size:40pt; line-height:1; margin-bottom:8mm; color:var(--paper); }
+  .final p{ color:#C9CED8; }
+  .kit{ background:#16243A; border:0.4mm solid #26354F; border-radius:5mm; padding:6mm 6.5mm; margin:4mm 0 9mm; }
+  .kit .tag{ font-family:"JetBrains Mono"; font-size:9pt; letter-spacing:.2em; text-transform:uppercase; color:#8A93A3; margin-bottom:4mm; }
+  .kit .it{ display:flex; align-items:center; gap:4mm; padding:3.4mm 0; border-top:0.3mm solid #26354F; font-family:"Inter Tight"; font-weight:800; font-size:17pt; color:var(--paper); }
+  .kit .it:first-of-type{ border-top:none; }
+  .kit .it small{ margin-left:auto; font-family:"JetBrains Mono"; font-weight:700; font-size:9.5pt; letter-spacing:.16em; text-transform:uppercase; color:var(--blue); }
+  .final .pill{ display:flex; justify-content:space-between; width:100%; padding:7mm 9mm; font-size:21pt; }
+  .final .pill small{ font-size:12.5pt; }
+  .final .beam{ margin-top:auto; margin-bottom:6mm; }
+</style>
+</head>
+<body>
+
+<!-- ОБЛОЖКА -->
+<section class="page dark cover">
+  <div class="meta"><span>Авитолог / Прайс 01</span><span>Услуги на Авито</span></div>
+  <h1>Шаблон прайса на 40 строк, где услуги написаны <em>словами клиента</em></h1>
+  <p class="sub">Готовые прайсы для Авито: электрика, ремонт, бани и дома, кровля и заборы, спецтехника. Плюс как собрать строки из поиска и чек-лист перед публикацией.</p>
+  <div class="hero art" data-img="cover">
+    <div class="hero-fallback">
+      <div class="ghost">
+        <small>Было · 3 строки</small>
+        <div class="gr"><span>Электромонтажные работы</span><span>от 500</span></div>
+        <div class="gr"><span>Слаботочные системы</span><span>договорная</span></div>
+        <div class="gr"><span>Выезд</span><span>договорная</span></div>
+      </div>
+      <div class="beamx"></div>
+      <div class="mp card">
+        <div class="g">Розетки и освещение</div>
+        <div class="r"><span>Замена розетки</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Установка люстры</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="g">Щиты и автоматика</div>
+        <div class="r"><span>Сборка электрощита</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Установка автоматов</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="g">Проводка</div>
+        <div class="r"><span>Электрика под ключ</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Прокладка кабеля</span><span class="p">от <span class="blank"></span> ₽</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sign"><span>Евгения | @musinpushkina</span><span>t.me/avitointellect</span></div>
+</section>
+
+<!-- 3 строки -->
+<section class="page">
+  <div class="meta"><span>Авитолог / Разбор 01</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Прайс на 3 строки. <em>И клиент ушёл</em></h2>
+  <div class="vs">
+    <div style="flex:.85">
+      <span class="x">Прайс на 3 строки</span>
+      <div class="mp poor dead">
+        <div class="r"><span>Электромонтажные работы</span><span class="p">от 500 ₽</span></div>
+        <div class="r"><span>Слаботочные системы</span><span class="p">договорная</span></div>
+        <div class="r"><span>Выезд мастера</span><span class="p">договорная</span></div>
+      </div>
+    </div>
+    <div style="flex:1.15">
+      <span class="ok">Прайс на 40 строк</span>
+      <div class="mp">
+        <div class="r"><span>Замена розетки</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Перенос розетки</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Установка люстры</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Сборка электрощита</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Установка автоматов</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r"><span>Прокладка кабеля</span><span class="p">от <span class="blank"></span> ₽</span></div>
+        <div class="r more">и ещё 34 строки</div>
+      </div>
+    </div>
+  </div>
+  <p>Человеку нужно поменять розетку и поставить новые автоматы в щиток. Он открывает объявление, а там «электромонтажные работы от 500». Это про его розетку или нет? 500 за что: за точку, за час, за выезд?</p>
+  <p>Переспрашивать ему лень. В соседнем объявлении прайс на 40 строк, и его задача написана прямо, с ценой. <b>Туда он и напишет.</b></p>
+  <p class="lead" style="margin-top:auto"><b>Итог:</b> хороший прайс отвечает на вопрос «а вы такое делаете и сколько стоит?» раньше, чем клиент успел его задать.</p>
+</section>
+
+<!-- Две задачи -->
+<section class="page">
+  <div class="meta"><span>Авитолог / Разбор 02</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>У прайса <em>две задачи</em></h2>
+  <div class="two">
+    <div class="box">
+      <h3><span class="n">1</span>Чтобы написали</h3>
+      <p>Клиент находит в списке свою задачу и цену. Видит, что вы это делаете, и пишет вам, а не листает дальше.</p>
+    </div>
+    <div class="box">
+      <h3><span class="n">2</span>Чтобы нашли</h3>
+      <p>По моим наблюдениям, строки прайса помогают объявлению находиться по этим запросам. Официально Авито так не объясняет, это опыт по кабинетам наших клиентов.</p>
+    </div>
+  </div>
+  <p style="margin-bottom:5mm">Обе задачи решает одно: <b>строки пишутся так, как клиент вбивает запрос в поиск</b>, а не так, как мастер называет работу в смете.</p>
+  <div class="words">
+    <div class="r h"><span>Словами мастера</span><span></span><span style="color:var(--blue);font-weight:700">Словами клиента</span></div>
+    <div class="r"><span>Электромонтажные работы</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Замена розетки</span></div>
+    <div class="r"><span>Монтаж осветительных приборов</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Установка люстры</span></div>
+    <div class="r"><span>Отделочные работы в санузле</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Ремонт ванной под ключ</span></div>
+    <div class="r"><span>Устройство кровельного покрытия</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Перекрыть крышу</span></div>
+    <div class="r"><span>Устройство ограждений</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Забор из профнастила</span></div>
+    <div class="r"><span>Земляные работы</span><span class="ar"><svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg></span><span>Копка котлована</span></div>
+  </div>
+  <p class="note" style="margin-top:auto;padding-top:5mm">«Устройство ограждений» в поиск никто не вбивает. А «забор из профнастила» вбивают каждую весну.</p>
+</section>
+
+<!-- Где взять слова -->
+<section class="page">
+  <div class="meta"><span>Метод / Сбор строк</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Где взять <em>слова клиента</em></h2>
+  <div class="src">
+    <span class="n">1</span>
+    <div>
+      <h3>Подсказки поиска Авито</h3>
+      <p>Начните вводить свою услугу в строку поиска и смотрите выпадающий список. Верхние подсказки обычно самые частые. Выписывайте их как есть, теми же словами и в том же порядке слов.</p>
+    </div>
+  </div>
+  <div class="src">
+    <span class="n">2</span>
+    <div>
+      <h3>Перебор алфавита</h3>
+      <p>Пишете услугу и одну букву: <span class="q">электрик <b>а</b></span> <span class="q">электрик <b>б</b></span> <span class="q">электрик <b>в</b></span> и так далее. После каждой буквы поиск подскажет новые хвосты: про автоматы, про баню, про частный дом.</p>
+      <p>Минут 20 работы, а строк набирается столько, до скольких сами бы не додумались.</p>
+    </div>
+  </div>
+  <div class="src">
+    <span class="n">3</span>
+    <div>
+      <h3>Переписки с клиентами</h3>
+      <p>Откройте последние 20-30 чатов и выпишите, как люди сами описывают задачу. «Выбивает автомат, когда включаю чайник» почти готовая строка: <b>«Выбивает автомат: найти причину»</b>.</p>
+    </div>
+  </div>
+  <p class="note" style="margin-top:auto">Всё складывайте в одну заметку, потом вычищайте дубли. Проверяйте подсказки в своём городе: в разных регионах ищут по-разному.</p>
+</section>
+
+<!-- Правила строки -->
+<section class="page">
+  <div class="meta"><span>Метод / Правила строки</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Пять правил <em>одной строки</em></h2>
+  <div class="rules">
+    <div class="rule"><span class="n">1</span><div>
+      <h3>Одна строка = одна задача клиента</h3>
+      <div class="ex"><div><span class="x">Было</span><span class="bad">Электромонтажные работы</span></div><div><span class="ok">Стало</span><span class="good">Замена розетки</span></div></div>
+    </div></div>
+    <div class="rule"><span class="n">2</span><div>
+      <h3>Начинайте с действия или объекта, как в запросе</h3>
+      <div class="ex"><div><span class="x">Было</span><span class="bad">Работы по облицовке керамогранитом</span></div><div><span class="ok">Стало</span><span class="good">Укладка плитки в ванной</span></div></div>
+    </div></div>
+    <div class="rule"><span class="n">3</span><div>
+      <h3>У каждой строки своя цена или «от»</h3>
+      <p>«Договорная» читается как «дорого, но не скажу». Пусть цена «от», но она есть. И единица: за штуку, метр, м², выезд.</p>
+      <div class="ex"><div><span class="x">Было</span><span class="bad">Сборка щитка · договорная</span></div><div><span class="ok">Стало</span><span class="good">Сборка электрощита · от <span class="ph">[Х]</span> ₽</span></div></div>
+    </div></div>
+    <div class="rule"><span class="n">4</span><div>
+      <h3>Без повторов ради количества</h3>
+      <p>«Замена розетки», «поменять розетку» и «розетка замена» это одна строка, а не три. Сорок строк про одну розетку выглядят как спам и путают клиента.</p>
+    </div></div>
+    <div class="rule"><span class="n">5</span><div>
+      <h3>Группируйте блоками, главное наверх</h3>
+      <p>Например: розетки и освещение / щиты и автоматика / проводка / аварийный выезд. Услуги, на которых вы зарабатываете, ставьте в первые строки.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- Как пользоваться -->
+<section class="page">
+  <div class="meta"><span>Шаблоны / Как пользоваться</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Дальше шаблоны. <em>Берите и вычёркивайте</em></h2>
+  <p style="margin-bottom:6mm">Пять ниш, в каждой 30-40 строк, разбитых на блоки. Все строки уже написаны словами клиента. Ваша задача на полчаса:</p>
+  <div class="steps">
+    <div><span class="n">1</span><span>Вычеркните то, чего не делаете. Лучше 30 честных строк, чем 40 с услугами, от которых вы потом откажетесь в чате.</span></div>
+    <div><span class="n">2</span><span>Впишите свою цену «от» в каждую строку. Единица уже стоит, проверьте, что она подходит вам.</span></div>
+    <div><span class="n">3</span><span>Добавьте 5-10 строк из подсказок поиска в своём городе. Шаблон общий, а запросы в Казани и в Подмосковье отличаются.</span></div>
+    <div><span class="n">4</span><span>Переставьте блоки: главные для вас услуги наверх.</span></div>
+  </div>
+  <div class="box">
+    <h3>Куда вставлять</h3>
+    <p>Если в объявлении вашей категории есть блок с прайсом, заполняйте его. Если нет, этот же список с ценами ложится в описание объявления блоками.</p>
+  </div>
+  <p class="note" style="margin-top:auto">Цены в шаблонах не стоят специально: они зависят от региона и от вас. Поля Авито тоже иногда меняются, если что-то выглядит по-другому, сверьтесь со справкой площадки.</p>
+</section>
+
+<div id="niches"></div>
+
+<!-- Чек-лист -->
+<section class="page">
+  <div class="meta"><span>Шпаргалка / Сохраните</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Проверка <em>перед публикацией</em></h2>
+  <div class="check">
+    <div><i></i>Заполнены все строки, нет пустых и «уточняйте»</div>
+    <div><i></i>У каждой строки цена или «от» и единица</div>
+    <div><i></i>Слова совпадают с подсказками поиска в вашем городе</div>
+    <div><i></i>Нет дублей одной услуги разными словами</div>
+    <div><i></i>Главные услуги стоят в первых строках</div>
+    <div><i></i>Строки разбиты на понятные блоки</div>
+    <div><i></i>В прайсе только то, что вы правда делаете</div>
+  </div>
+  <div class="box" style="margin-top:auto">
+    <h3>Раз в сезон пересматривайте</h3>
+    <p>Весной в подсказках заборы и фундаменты, осенью кровля и утепление, зимой уборка снега и срочные вызовы. Добавили сезонные строки наверх, убрали неактуальные.</p>
+  </div>
+</section>
+
+<!-- Финал -->
+<section class="page dark final">
+  <div class="meta"><span>Авитолог / Финал</span><span class="pg"></span></div>
+  <div class="beam short"></div>
+  <h2>Поиск <svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg> прайс <svg class="arw" viewBox="0 0 24 24"><path d="M3 12h17M13.5 5.5 20 12l-6.5 6.5"/></svg> <em>сообщение</em></h2>
+  <p>Хороший прайс помогает человеку найти вас и сразу увидеть свою задачу с ценой. А дальше всё решает переписка: как довести её до звонка и до сделки.</p>
+  <p>Мы с мужем ведём рекламу на Авито для строителей, производств и мастеров с выездом. И прайс словами клиента у нас первое, что мы переделываем в кабинете.</p>
+  <div class="kit">
+    <div class="tag">Комплект / Ведение кабинета Авито</div>
+    <div class="it"><span class="n">1</span>Объявления и прайс словами клиента</div>
+    <div class="it"><span class="n">2</span>Реклама внутри Авито</div>
+    <div class="it"><span class="n">3</span>Скрипты для чата под вашу нишу<small>Бесплатно</small></div>
+  </div>
+  <p class="lead" style="color:var(--paper);margin-bottom:6mm">Больше разборов объявлений и переписок в моём Telegram-канале:</p>
+  <a class="pill" href="https://t.me/avitointellect">Перейти в канал <small>t.me/avitointellect</small></a>
+  <div class="beam"></div>
+  <div class="meta" style="margin-bottom:0"><span>Евгения | @musinpushkina</span><span>Авитолог</span></div>
+</section>
+
+<script src="data.js"></script>
+<script>
+  // страницы ниш: по одной таблице на страницу, длинные ниши делятся на две
+  (function () {
+    const pl = (k) => { const a = k % 10, b = k % 100; return k + ' ' + (a === 1 && b !== 11 ? 'строка' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'строки' : 'строк'); };
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const head = (n, sub) => `<div class="niche-head"><span class="big-num">${n.num}</span><div><h2>${esc(n.title).replace(n.em, '<em>' + n.em + '</em>')}</h2><p class="niche-sub">${sub}</p></div></div>`;
+    let html = '';
+    for (const n of PRAYS) {
+      const total = n.groups.reduce((a, g) => a + g[1].length, 0);
+      const parts = [[]];
+      let cnt = 0;
+      for (const g of n.groups) {
+        if (total > 24 && parts.length === 1 && cnt > 0 && cnt + g[1].length > Math.ceil(total / 2) + 3) parts.push([]);
+        parts[parts.length - 1].push(g);
+        cnt += g[1].length;
+      }
+      let i = 0;
+      parts.forEach((gs, pi) => {
+        const rows = gs.map((g) => `<div class="g"><span>${esc(g[0])}</span><span>${pl(g[1].length)}</span></div>` +
+          g[1].map(([t, u]) => `<div class="r"><span class="i">${String(++i).padStart(2, '0')}</span><span class="t">${esc(t)}</span><span class="u">${u}</span><span class="p">от <span class="blank"></span> ₽</span></div>`).join('')).join('');
+        const top = pi === 0
+          ? head(n, `${n.bonus ? 'Бонус. ' : ''}${pl(total)} в ${n.groups.length} блоках. Вычеркните лишнее, впишите цены.`)
+          : `<div class="cont">${esc(n.title)}: <em>продолжение</em></div>`;
+        html += `<section class="page"><div class="meta"><span>Шаблон / ${n.num}${parts.length > 1 ? ' · ' + (pi + 1) + ' из ' + parts.length : ''}</span><span class="pg"></span></div><div class="beam short"></div>${top}<div class="price">${rows}</div></section>`;
+      });
+    }
+    document.getElementById('niches').outerHTML = html;
+    document.querySelectorAll('section.page').forEach((s, k) => { const p = s.querySelector('.pg'); if (p) p.textContent = String(k + 1).padStart(2, '0'); });
+  })();
+</script>
+</body>
+</html>
