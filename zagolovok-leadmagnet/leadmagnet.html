@@ -54,6 +54,12 @@
 
   /* ---------- обложка ---------- */
   .cover{ padding:17mm 17mm 0; display:flex; flex-direction:column; }
+  .cover > *{ position:relative; z-index:1; }
+  .cover > .cover-bg{ position:absolute; z-index:0; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; }
+  .cover::after{ content:""; position:absolute; inset:auto 0 0 0; height:45mm; background:linear-gradient(to top, rgba(15,27,45,.92), rgba(15,27,45,0)); z-index:0; }
+  .cover .sign{ margin-top:auto; color:#C9CFDA; }
+  .facts{ display:flex; gap:2.5mm; flex-wrap:wrap; }
+  .facts span{ font-family:"JetBrains Mono"; font-size:10.5pt; letter-spacing:.12em; text-transform:uppercase; color:#C9CFDA; border:.4mm solid #3A4A66; border-radius:10mm; padding:1.4mm 3.6mm; background:rgba(15,27,45,.6); }
   .cover h1{ font-size:56pt; line-height:.98; font-weight:900; margin:4mm 0 7mm; }
   .cover .lead{ font-size:18pt; max-width:160mm; }
   .feed{ position:relative; margin-top:6mm; }
@@ -223,21 +229,12 @@
 
 <!-- ============ 1. ОБЛОЖКА ============ -->
 <section class="page dark cover">
+  <img class="cover-bg" src="img/cover.jpg" alt="">
   <div class="mark"><span>Авитолог / метод <b>04</b></span><span>Заголовок</span></div>
   <h1>Заголовок, по которому тебя <em>находят</em></h1>
   <p class="lead">Готовое задание для Чат GPT и Claude: нейросеть пишет заголовок как мастер, а не как пресс-релиз. Плюс две стратегии, под поиск и под рекомендации.</p>
 
-  <div class="feed">
-    <div class="rail line-blue"></div>
-    <div class="lst bad"><div class="ph"></div><div><div class="t">Мы команда профессионалов, предоставляющ<span class="cut">…</span></div><div class="m">листают дальше</div></div></div>
-    <div class="lst good"><div class="ph"></div><div><div class="t">Ремонт ванной в Колпино, плитку кладу сам</div><div class="m">41 символ · запрос в начале · одно отличие</div></div></div>
-  </div>
-
-  <div class="cover-cards">
-    <div><b>Внутри</b>2 готовых задания: копируешь, вставляешь, получаешь 10 заголовков</div>
-    <div><b>Для кого</b>Мастера, стройка, ремонт, производство, услуги на Авито</div>
-    <div><b>Время</b>15 минут на первый заголовок, который не стыдно ставить</div>
-  </div>
+  <div class="facts"><span>2 готовых задания</span><span>3 разбора</span><span>15 минут</span></div>
   <div class="sign">Евгения | @musinpushkina · авитолог</div>
 </section>
 
