@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Заголовок, по которому тебя находят</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  :root{
+    --bg:#ECE9E4; --paper:#F8F7F4; --ink:#0F1B2D; --blue:#2E8BFF; --lime:#C8F03C;
+    --grey:#7A766F; --steel:#B8B3AB; --line:#DAD5CD; --ink2:#3A4458;
+  }
+  @page{ size:A4; margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Onest",sans-serif; color:var(--ink); background:var(--bg);
+    font-size:15pt; line-height:1.45;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{
+    width:210mm; height:297mm; padding:17mm 17mm 16mm; background:var(--bg);
+    break-after:page; position:relative; overflow:hidden;
+  }
+  .page:last-child{ break-after:auto; }
+  .dark{ background:var(--ink); color:var(--paper); }
+
+  /* микрометка + нижний колонтитул */
+  .mark{
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-size:10.5pt;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--grey);
+    display:flex; justify-content:space-between; margin-bottom:9mm;
+  }
+  .mark b{ color:var(--blue); font-weight:700; }
+  .dark .mark{ color:#8C94A6; }
+  .foot{
+    position:absolute; left:17mm; right:17mm; bottom:9mm;
+    font-family:"JetBrains Mono",monospace; font-size:9.5pt; letter-spacing:.16em;
+    color:var(--grey); display:flex; justify-content:space-between; text-transform:uppercase;
+  }
+  .dark .foot{ color:#6F7889; }
+
+  h1,h2,h3{ font-family:"Inter Tight",sans-serif; margin:0; letter-spacing:-.02em; }
+  h2{ font-size:33pt; line-height:1.04; font-weight:900; margin-bottom:5mm; }
+  h2 em, h1 em{ font-style:normal; color:var(--blue); }
+  h3{ font-size:20pt; line-height:1.12; font-weight:800; margin-bottom:2.5mm; }
+  p{ margin:0 0 3.4mm; }
+  .lead{ font-size:17pt; line-height:1.4; color:var(--ink2); margin-bottom:7mm; }
+  .dark .lead{ color:#C9CFDA; }
+  .small{ font-size:13pt; color:var(--grey); }
+  .bl{ color:var(--blue); }
+
+  .card{ background:var(--paper); border-radius:4mm; padding:6mm 6.5mm; break-inside:avoid; }
+  .line-blue{ height:.7mm; background:var(--blue); border-radius:1mm; box-shadow:0 0 3mm rgba(46,139,255,.6); }
+
+  /* ---------- обложка ---------- */
+  .cover{ padding:17mm 17mm 0; display:flex; flex-direction:column; }
+  .cover h1{ font-size:56pt; line-height:.98; font-weight:900; margin:4mm 0 7mm; }
+  .cover .lead{ font-size:18pt; max-width:160mm; }
+  .feed{ position:relative; margin-top:6mm; }
+  .feed .rail{ position:absolute; left:-17mm; right:-17mm; top:50%; }
+  .lst{
+    display:flex; gap:5mm; align-items:center; background:#17263D; border-radius:4mm;
+    padding:4.5mm; margin-bottom:4.5mm; position:relative; z-index:1;
+  }
+  .lst .ph{ flex:none; width:30mm; height:24mm; border-radius:2.5mm; background:linear-gradient(135deg,#26364F,#1B2A42); }
+  .lst .t{ font-family:"Inter Tight"; font-weight:800; font-size:17pt; line-height:1.15; }
+  .lst .m{ font-size:11.5pt; color:#7F8AA0; margin-top:1.5mm; font-family:"JetBrains Mono"; letter-spacing:.06em; }
+  .lst.bad{ opacity:.55; }
+  .lst.bad .t{ color:#9AA3B5; }
+  .lst.good{ background:var(--paper); color:var(--ink); box-shadow:0 0 0 .6mm var(--blue), 0 0 8mm rgba(46,139,255,.35); }
+  .lst.good .ph{ background:linear-gradient(135deg,#D9D4CC,#B8B3AB); }
+  .lst.good .m{ color:var(--blue); }
+  .cut{ color:#5D6780; }
+  .cover-cards{ display:flex; gap:4mm; margin-top:auto; padding-bottom:9mm; }
+  .cover-cards div{ flex:1; border:.4mm solid #2A3A55; border-radius:3.5mm; padding:4mm 4.5mm; font-size:12.5pt; line-height:1.3; color:#C9CFDA; }
+  .cover-cards b{ display:block; font-family:"JetBrains Mono"; font-size:9.5pt; letter-spacing:.18em; color:var(--blue); margin-bottom:1.5mm; text-transform:uppercase; }
+  .sign{ font-family:"JetBrains Mono"; font-size:11pt; letter-spacing:.14em; color:#8C94A6; padding-bottom:12mm; text-transform:uppercase; }
+
+  /* ---------- шаги ---------- */
+  .steps{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+  .steps .card{ padding:4mm 5mm; }
+  .n{ font-family:"JetBrains Mono"; font-weight:700; font-size:11pt; letter-spacing:.16em; color:var(--blue); display:block; margin-bottom:1.5mm; }
+  .steps p{ font-size:14pt; line-height:1.35; margin:0; }
+  .chain{ font-family:"JetBrains Mono"; font-size:11.5pt; letter-spacing:.06em; color:var(--grey); margin-top:5mm; }
+  .chain b{ color:var(--blue); }
+
+  /* ---------- две дороги ---------- */
+  .roads{ display:grid; grid-template-columns:1fr 1fr; gap:5mm; margin-bottom:6mm; }
+  .road{ border-radius:5mm; padding:6mm; }
+  .road.a{ background:var(--paper); }
+  .road.b{ background:var(--ink); color:var(--paper); }
+  .road .tag{ font-family:"JetBrains Mono"; font-weight:700; font-size:10.5pt; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; }
+  .road h3{ font-size:27pt; margin:2mm 0 3mm; }
+  .road .who{ font-size:13.5pt; line-height:1.35; color:var(--grey); margin-bottom:4mm; }
+  .road.b .who{ color:#A9B1C2; }
+  .road .row{ border-top:.35mm solid var(--line); padding:2.8mm 0; font-size:13.5pt; line-height:1.33; }
+  .road.b .row{ border-color:#2A3A55; }
+  .road .row b{ display:block; font-family:"JetBrains Mono"; font-size:9.5pt; letter-spacing:.16em; text-transform:uppercase; color:var(--grey); margin-bottom:.8mm; font-weight:700; }
+  .road.b .row b{ color:#7F8AA0; }
+  .ex{ font-family:"Inter Tight"; font-weight:800; font-size:14.5pt; }
+  .choose{ display:flex; flex-direction:column; gap:3mm; }
+  .choose div{ display:flex; gap:5mm; align-items:center; background:var(--paper); border-radius:4mm; padding:6mm 6mm; font-size:15.5pt; line-height:1.3; }
+  .choose span{ flex:none; font-family:"Inter Tight"; font-weight:900; font-size:17pt; padding:1.6mm 3.6mm; border-radius:10mm; background:var(--ink); color:var(--paper); }
+  .choose .ab span{ background:var(--blue); }
+
+  .pair{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+  .pair .tt{ font-size:15.5pt; }
+  /* ---------- частотность ---------- */
+  .ladder{ display:flex; align-items:flex-end; gap:3.5mm; margin:2mm 0 5mm; }
+  .stp{ flex:1; border-radius:4mm 4mm 2mm 2mm; padding:5mm; color:var(--paper); display:flex; flex-direction:column; }
+  .stp .k{ font-family:"Inter Tight"; font-weight:900; font-size:30pt; line-height:1; }
+  .stp .q{ font-family:"Inter Tight"; font-weight:800; font-size:13.5pt; line-height:1.2; margin:3mm 0; }
+  .stp .d{ font-size:12pt; line-height:1.3; opacity:.85; margin-top:auto; }
+  .stp.v{ height:88mm; background:#3A4458; }
+  .stp.s{ height:78mm; background:#22324C; }
+  .stp.l{ height:70mm; background:var(--ink); box-shadow:0 0 0 .6mm var(--blue); }
+  .stp.l .k{ color:var(--blue); }
+  .rule{ background:var(--ink); color:var(--paper); border-radius:5mm; padding:6mm 7mm; margin-bottom:5mm; }
+  .rule .big{ font-family:"Inter Tight"; font-weight:900; font-size:25pt; line-height:1.1; }
+  .rule .big em{ font-style:normal; color:var(--blue); }
+  .matrix{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:3mm; margin-top:5mm; }
+  .matrix div{ border:.4mm solid #2A3A55; border-radius:3mm; padding:3.5mm; font-size:12.5pt; line-height:1.3; color:#C9CFDA; }
+  .matrix b{ display:block; font-family:"Inter Tight"; font-size:17pt; color:var(--paper); margin-top:1mm; }
+
+  /* ---------- оценка: мокапы ---------- */
+  .how{ display:grid; grid-template-columns:70mm 1fr; gap:6mm; margin-bottom:4mm; align-items:start; }
+  .how h3{ font-size:19pt; }
+  .how p{ font-size:14pt; line-height:1.36; margin:0; }
+  .mock{ background:var(--paper); border-radius:4mm; padding:4mm; font-size:12.5pt; position:relative; }
+  .mock .cap{ font-family:"JetBrains Mono"; font-size:8.5pt; letter-spacing:.18em; color:var(--grey); text-transform:uppercase; margin-bottom:2.5mm; }
+  .sbox{ border:.5mm solid var(--ink); border-radius:2.5mm; padding:2mm 3mm; font-weight:600; margin-bottom:1.5mm; }
+  .sbox i{ display:inline-block; width:.4mm; height:4.5mm; background:var(--ink); vertical-align:middle; margin-left:.5mm; }
+  .sug{ padding:1.6mm 3mm; border-bottom:.3mm solid var(--line); color:var(--ink2); }
+  .sug b{ color:var(--ink); }
+  .hl{ outline:.7mm solid var(--blue); outline-offset:.6mm; border-radius:1.5mm; }
+  .arrow{ font-family:"JetBrains Mono"; font-size:9.5pt; color:var(--blue); letter-spacing:.06em; margin-top:2mm; font-weight:700; }
+  .wrow{ display:flex; justify-content:space-between; padding:1.6mm 1mm; border-bottom:.3mm solid var(--line); }
+  .wrow span:last-child{ font-family:"JetBrains Mono"; font-weight:700; }
+  .mini{ display:flex; gap:2mm; align-items:center; padding:1.4mm 0; border-bottom:.3mm solid var(--line); }
+  .mini i{ width:10mm; height:7mm; border-radius:1mm; background:var(--steel); flex:none; }
+  .mini.pro i{ background:var(--blue); }
+  .mini span{ font-size:11pt; color:var(--ink2); }
+  .mini em{ margin-left:auto; font-style:normal; font-family:"JetBrains Mono"; font-size:8.5pt; color:var(--blue); letter-spacing:.08em; }
+  .note{ border-left:1.4mm solid var(--blue); background:var(--paper); border-radius:2mm; padding:4mm 5mm; font-size:13.5pt; line-height:1.38; }
+
+  /* ---------- чек-лист ---------- */
+  .check{ display:flex; flex-direction:column; gap:2.4mm; }
+  .check div{ display:flex; gap:4mm; background:var(--paper); border-radius:3.5mm; padding:2.6mm 5mm; font-size:14pt; line-height:1.35; break-inside:avoid; }
+  .check i{ flex:none; width:7.5mm; height:7.5mm; border:.6mm solid var(--ink); border-radius:1.6mm; margin-top:.6mm; }
+  .check b{ font-family:"Inter Tight"; font-size:15.5pt; }
+  .ban{ background:var(--ink); color:var(--paper); border-radius:5mm; padding:5mm 6mm; margin-top:4mm; }
+  .ban h3{ color:var(--paper); font-size:18pt; }
+  .ban p{ font-size:13.5pt; line-height:1.38; color:#C9CFDA; }
+  .chips{ display:flex; flex-wrap:wrap; gap:2mm; margin:3mm 0 4mm; }
+  .chips span{ border:.4mm solid #44526D; border-radius:10mm; padding:1mm 3.4mm; font-size:12.5pt; text-decoration:line-through; text-decoration-color:var(--blue); text-decoration-thickness:.5mm; color:#E3E7EE; }
+  .src{ font-family:"JetBrains Mono"; font-size:9.5pt; letter-spacing:.04em; color:#8C94A6; word-break:break-all; }
+
+  /* ---------- промпт ---------- */
+  .use{ display:flex; gap:2.5mm; flex-wrap:wrap; margin-bottom:5mm; font-family:"JetBrains Mono"; font-size:11pt; letter-spacing:.04em; }
+  .use span{ background:var(--paper); border-radius:10mm; padding:1.6mm 3.6mm; }
+  .use b{ color:var(--blue); }
+  .prompt{
+    background:var(--paper); border:.5mm solid var(--ink); border-radius:4mm; padding:6mm 6.5mm 5mm;
+    font-size:13.6pt; line-height:1.42; white-space:pre-wrap; position:relative;
+  }
+  .prompt .ptag{
+    position:absolute; top:-3.6mm; left:6mm; background:var(--ink); color:var(--paper);
+    font-family:"JetBrains Mono"; font-size:9.5pt; letter-spacing:.18em; padding:1mm 3mm; border-radius:1.5mm;
+  }
+  .prompt .fld{ background:#E2EEFF; border-radius:1mm; box-shadow:0 0 0 .5mm #E2EEFF; }
+  .prompt .sec{ font-family:"Inter Tight"; font-weight:900; font-size:13.6pt; color:var(--blue); letter-spacing:.04em; }
+  .cont{ font-family:"JetBrains Mono"; font-size:10pt; letter-spacing:.14em; color:var(--grey); text-align:right; margin-top:2mm; text-transform:uppercase; }
+
+  /* ---------- диалог ---------- */
+  .chat{ display:flex; flex-direction:column; gap:2.5mm; margin-bottom:5mm; }
+  .bub{ border-radius:4mm; padding:3.4mm 5mm; font-size:13.5pt; line-height:1.38; max-width:88%; }
+  .bub.me{ align-self:flex-end; background:var(--ink); color:var(--paper); }
+  .bub.ai{ align-self:flex-start; background:var(--paper); }
+  .bub .who2{ font-family:"JetBrains Mono"; font-size:9pt; letter-spacing:.18em; color:var(--grey); display:block; margin-bottom:1.2mm; text-transform:uppercase; }
+  .bub.me .who2{ color:#8C94A6; }
+  .bub ol{ margin:1.5mm 0 0; padding-left:6mm; }
+  .bub li{ margin-bottom:.8mm; }
+  .follow{ display:flex; flex-direction:column; gap:2.5mm; }
+  .follow div{ background:var(--paper); border-radius:3mm; padding:3.5mm 4.5mm; font-size:13.8pt; border-left:1.4mm solid var(--blue); }
+
+  /* ---------- разборы ---------- */
+  .case-meta{ display:flex; gap:2.5mm; flex-wrap:wrap; margin:-1mm 0 6mm; }
+  .case-meta span{ font-family:"JetBrains Mono"; font-size:10.5pt; letter-spacing:.06em; border:.4mm solid var(--steel); border-radius:10mm; padding:1.2mm 3.4mm; color:var(--ink2); }
+  .case-meta span.on{ border-color:var(--blue); color:var(--blue); font-weight:700; }
+  .ba{ display:grid; grid-template-columns:1fr; gap:4mm; }
+  .before{ background:#DFDBD4; border-radius:4mm; padding:5mm 6mm; }
+  .after{ background:var(--paper); border-radius:4mm; padding:5mm 6mm; box-shadow:0 0 0 .6mm var(--blue); }
+  .lbl{ font-family:"JetBrains Mono"; font-weight:700; font-size:10pt; letter-spacing:.2em; text-transform:uppercase; color:var(--grey); margin-bottom:2.5mm; display:block; }
+  .after .lbl{ color:var(--blue); }
+  .tt{ display:flex; justify-content:space-between; align-items:baseline; gap:4mm; font-family:"Inter Tight"; font-weight:800; font-size:16.5pt; line-height:1.22; padding:2mm 0; border-bottom:.3mm solid var(--line); }
+  .before .tt{ color:#5E5A54; border-color:#CFCAC2; font-weight:700; }
+  .tt:last-of-type{ border-bottom:none; }
+  .tt small{ flex:none; font-family:"JetBrains Mono"; font-weight:700; font-size:10pt; color:var(--grey); letter-spacing:.04em; }
+  .tt small.ty{ color:var(--blue); }
+  .why{ margin-top:3mm; font-size:13.8pt; line-height:1.4; }
+  .why b{ font-family:"Inter Tight"; }
+  .photo{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:3mm; margin-top:3mm; }
+  .photo div{ background:var(--ink); color:#C9CFDA; border-radius:3mm; padding:3.5mm; font-size:12pt; line-height:1.32; }
+  .photo b{ display:block; font-family:"JetBrains Mono"; font-size:9pt; letter-spacing:.16em; color:var(--blue); margin-bottom:1.2mm; }
+
+  /* ---------- проверка ---------- */
+  .tree{ display:flex; flex-direction:column; gap:3mm; }
+  .branch{ display:grid; grid-template-columns:62mm 1fr; gap:4mm; align-items:stretch; }
+  .branch .if{ background:var(--ink); color:var(--paper); border-radius:3.5mm; padding:4.5mm; font-family:"Inter Tight"; font-weight:800; font-size:15pt; line-height:1.2; }
+  .branch .then{ background:var(--paper); border-radius:3.5mm; padding:4mm 5mm; font-size:13.8pt; line-height:1.38; }
+
+  /* ---------- финал ---------- */
+  .final{ display:flex; flex-direction:column; }
+  .final h2{ font-size:40pt; margin-top:20mm; }
+  .pill{ display:inline-block; align-self:flex-start; background:var(--lime); color:var(--ink); font-family:"Inter Tight"; font-weight:900; font-size:19pt; padding:5mm 9mm; border-radius:20mm; text-decoration:none; margin:6mm 0 4mm; }
+  .tg{ font-family:"JetBrains Mono"; font-size:13pt; letter-spacing:.06em; color:#C9CFDA; }
+  .tg a{ color:var(--blue); text-decoration:none; }
+  .bysign{ margin-top:auto; padding-bottom:6mm; font-family:"Inter Tight"; font-weight:800; font-size:18pt; }
+  .bysign span{ display:block; font-family:"JetBrains Mono"; font-weight:500; font-size:11pt; letter-spacing:.14em; color:#8C94A6; margin-top:1.5mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. ОБЛОЖКА ============ -->
+<section class="page dark cover">
+  <div class="mark"><span>Авитолог / метод <b>04</b></span><span>Заголовок</span></div>
+  <h1>Заголовок, по которому тебя <em>находят</em></h1>
+  <p class="lead">Готовое задание для Чат GPT и Claude: нейросеть пишет заголовок как мастер, а не как пресс-релиз. Плюс две стратегии, под поиск и под рекомендации.</p>
+
+  <div class="feed">
+    <div class="rail line-blue"></div>
+    <div class="lst bad"><div class="ph"></div><div><div class="t">Мы команда профессионалов, предоставляющ<span class="cut">…</span></div><div class="m">листают дальше</div></div></div>
+    <div class="lst good"><div class="ph"></div><div><div class="t">Ремонт ванной в Колпино, плитку кладу сам</div><div class="m">41 символ · запрос в начале · одно отличие</div></div></div>
+  </div>
+
+  <div class="cover-cards">
+    <div><b>Внутри</b>2 готовых задания: копируешь, вставляешь, получаешь 10 заголовков</div>
+    <div><b>Для кого</b>Мастера, стройка, ремонт, производство, услуги на Авито</div>
+    <div><b>Время</b>15 минут на первый заголовок, который не стыдно ставить</div>
+  </div>
+  <div class="sign">Евгения | @musinpushkina · авитолог</div>
+</section>
+
+<!-- ============ 2. ВСТУПЛЕНИЕ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>00</b></span><span>Сначала главное</span></div>
+  <h2>Нейросеть как новый <em>подсобник</em></h2>
+  <p class="lead">Привет, это Евгения. Обещала в ролике задание, после которого Чат GPT пишет как мастер. Держи. Но сначала одна мысль, на которой всё держится.</p>
+  <p>Нейросеть похожа на нового подсобника на объекте. Старания полно, а где копать, он не знает. Скажешь «придумай заголовок», и он честно выкопает. Только не там.</p>
+  <p>Я проверила. Попросила нейросеть без задания: «напиши заголовок: ремонт ванной под ключ в Колпино». Ответ: <b>«Ремонт ванной под ключ в Колпино»</b>, почти мой же запрос. Грамотно, и ровно так же называется половина выдачи. А ещё она дописала «Смета бесплатно», хотя про смету я ни слова не говорила.</p>
+  <p>Задание ниже объясняет подсобнику, где объект: под какую дорогу пишем, какое слово первое, чем ты отличаешься и что нельзя совсем. Так я ставлю задачу, когда делаю заголовки клиентам.</p>
+
+  <h3 style="margin-top:5mm">Как пользоваться</h3>
+  <div class="steps">
+    <div class="card"><span class="n">Шаг 01</span><p>Выбери дорогу: поиск или рекомендации. Страницы 4-5.</p></div>
+    <div class="card"><span class="n">Шаг 02</span><p>Для поиска прикинь конкуренцию и частотность запроса. Страницы 6-7, минут 10.</p></div>
+    <div class="card"><span class="n">Шаг 03</span><p>Скопируй задание, допиши свои данные и отправь в Чат GPT или Claude.</p></div>
+    <div class="card"><span class="n">Шаг 04</span><p>Сверь тройку лучших с чек-листом, поставь один, через 7-10 дней проверь цифры.</p></div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>02</span></div>
+</section>
+
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>00</b></span><span>Про страх из ролика</span></div>
+  <h2>Авито режет за текст <em>от нейросети?</em></h2>
+  <p class="lead">Нет. В правилах Авито прямо написано, что можно пользоваться их функцией автоматического создания описания. Единственная оговорка: проверь текст и отредактируй под своё предложение.</p>
+  <div class="note" style="margin-bottom:7mm">«Вы можете воспользоваться функцией автоматического создания описания, если она доступна в интерфейсе Авито… проверьте и отредактируйте описание до размещения объявления».<div class="src" style="color:var(--grey);margin-top:2mm">Требования к качеству объявлений · avito.ru/legal/rules/listings/items-quality</div></div>
+  <div class="pair">
+    <div class="card"><span class="lbl">За что режет Авито</span>
+      <p style="font-size:14pt">Цена, телефон или ссылки в названии. Капс и слова для привлечения внимания: «недорого», «акция». Дубли: второе одинаковое объявление про тот же товар. Обещания, которых нет на самом деле.</p></div>
+    <div class="card" style="background:var(--ink);color:var(--paper)"><span class="lbl" style="color:var(--blue)">За что «режет» клиент</span>
+      <p style="font-size:14pt;color:#C9CFDA">Заголовок как у всех. Штампы вроде «профессионалы с опытом». Непонятно, что продают. Здесь апелляцию не подашь: человек просто листает дальше.</p></div>
+  </div>
+  <p style="margin-top:7mm">Так что нейросеть сама по себе не риск. Риск в том, что без задания она пишет одинаково со всеми и иногда сочиняет то, чего у тебя нет. Оба риска закрывает задание из этого файла.</p>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>03</span></div>
+</section>
+
+<!-- ============ 3. ДВЕ ДОРОГИ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>01</b></span><span>Стратегия</span></div>
+  <h2>Сначала выбери дорогу: <em>поиск</em> или <em>рекомендации</em></h2>
+  <p class="lead" style="margin-bottom:6mm">Где показать объявление, решает Авито. А ты решаешь, под кого точишь заголовок: человек в поиске и человек в ленте ведут себя по-разному.</p>
+
+  <div class="roads">
+    <div class="road a">
+      <span class="tag">Дорога А</span>
+      <h3>Поиск</h3>
+      <div class="who">Человек сам вбивает запрос. Твоя задача: совпасть с тем, что он ищет.</div>
+      <div class="row"><b>Что в заголовке</b>Один ключевой запрос в самом начале и короткое отличие. Никаких загадок.</div>
+      <div class="row"><b>Пример</b><span class="ex">Ремонт ванной в хрущёвке за 14-20 дней</span></div>
+      <div class="row"><b>Заявки</b>Целевые: человек уже ищет именно это.</div>
+      <div class="row"><b>Минус</b>Обращений меньше, и в конкурентной нише нужно точно выбрать запрос.</div>
+    </div>
+    <div class="road b">
+      <span class="tag">Дорога Б</span>
+      <h3>Рекомендации</h3>
+      <div class="who">Лента «Рекомендации для вас»: объявление видят люди, которые его не искали.</div>
+      <div class="row"><b>Что в заголовке</b>Боль клиента его словами плюс фото, которое останавливает палец. Ключевой запрос не обязателен.</div>
+      <div class="row"><b>Пример</b><span class="ex">Латали дважды, а всё течёт? Перекроем крышу</span></div>
+      <div class="row"><b>Заявки</b>Обращений много, но не все целевые.</div>
+      <div class="row"><b>Минус</b>Нужно время отвечать и отсеивать тех, кто просто спросить.</div>
+    </div>
+  </div>
+
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>04</span></div>
+</section>
+
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>01</b></span><span>Стратегия · выбор</span></div>
+  <h2>Как выбрать <em>за 10 секунд</em></h2>
+  <div class="choose">
+    <div><span>А</span>Нужны точные заявки, и есть время подождать, пока объявление наберёт показы.</div>
+    <div><span>Б</span>Нужен поток обращений, и есть кому отвечать в чате и отсеивать.</div>
+    <div class="ab"><span>А+Б</span>Хочешь и то и другое: делай два разных объявления, одно под поиск, второе под ленту.</div>
+  </div>
+  <h3 style="margin-top:9mm">Как выглядит «А+Б» у мастера по ванным</h3>
+  <div class="pair">
+    <div class="after"><span class="lbl">Объявление 1 · поиск</span><div class="tt">Ремонт ванной в хрущевке за 14-20 дней <small class="ty">НЧ · 38</small></div><div class="why">Ремонт под ключ. Ловит тех, кто уже ищет.</div></div>
+    <div class="before" style="background:var(--ink);color:var(--paper)"><span class="lbl" style="color:var(--blue)">Объявление 2 · лента</span><div class="tt" style="color:var(--paper);border:none">Плитка отвалилась? Кладу сам, гарантия 2 года <small style="color:#8C94A6">45</small></div><div class="why" style="color:#C9CFDA">Отдельная услуга: перекладка плитки. Цепляет тех, кто ещё не искал.</div></div>
+  </div>
+  <div class="note" style="margin-top:6mm"><b>Только не копируй.</b> Одинаковые объявления про один и тот же товар Авито считает дублями, и более позднее могут заблокировать. Второе объявление делай про отдельную услугу или другой формат работ, со своими фото и своим текстом.</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>05</span></div>
+</section>
+
+<!-- ============ 4. ЧАСТОТНОСТЬ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>02</b></span><span>Для дороги А</span></div>
+  <h2>Какой запрос ставить первым: <em>ВЧ, СЧ или НЧ</em></h2>
+  <p class="lead">У запросов три роста. От роста зависит, сколько людей ищут и сколько продавцов толкаются рядом.</p>
+
+  <div class="ladder">
+    <div class="stp v"><span class="k">ВЧ</span><span class="q">«ремонт квартир», «натяжные потолки»</span><span class="d">Высокочастотные. Ищут очень много, но и продвигаются все. В конкурентной нише пробиться наверх слишком дорого.</span></div>
+    <div class="stp s"><span class="k">СЧ</span><span class="q">«ремонт ванной под ключ», «натяжной потолок в спальню»</span><span class="d">Среднечастотные. Уже понятно, какая работа нужна.</span></div>
+    <div class="stp l"><span class="k">НЧ</span><span class="q">«ремонт ванной в хрущёвке»</span><span class="d">Низкочастотные. Ищут меньше, но человек точно знает, чего хочет, а конкурентов почти нет.</span></div>
+  </div>
+
+  <div class="rule">
+    <div class="big">Чем больше конкурентов, тем <em>точнее</em> запрос в заголовке.</div>
+    <div class="matrix">
+      <div>Конкуренция высокая<b>НЧ или СЧ</b></div>
+      <div>Конкуренция средняя<b>СЧ</b></div>
+      <div>Конкуренция низкая<b>СЧ или даже ВЧ</b></div>
+    </div>
+  </div>
+  <p>Поставишь в Питере «Ремонт ванной», и окажешься в одной выдаче с сотней фирм с большими бюджетами. По «ремонту ванной в хрущёвке» ищут реже, зато ты на виду. А в маленьком городе, где щебень возят три продавца, бери общий запрос: толкаться не с кем.</p>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>06</span></div>
+</section>
+
+<!-- ============ 5. КАК ОЦЕНИТЬ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>03</b></span><span>Оценка за 10 минут</span></div>
+  <h2 style="margin-bottom:7mm">Как прикинуть частотность и конкуренцию <em>бесплатно</em></h2>
+  
+  <div class="how">
+    <div class="mock">
+      <div class="cap">Схема · поиск Авито</div>
+      <div class="sbox">ремонт ванн<i></i></div>
+      <div class="sug hl"><b>ремонт ванн</b>ой под ключ</div>
+      <div class="sug"><b>ремонт ванн</b>ой в хрущёвке</div>
+      <div class="sug"><b>ремонт ванн</b>ой комнаты</div>
+      <div class="arrow">← подсказки = так ищут люди</div>
+    </div>
+    <div>
+      <h3><span class="bl">1.</span> Подсказки поиска Авито</h3>
+      <p>Выбери свой город и медленно вводи запрос, например «ремонт ванн». Не жми «найти», смотри на выпадающий список: это то, что люди реально вбивают. Выпиши 5-7 подсказок. Чем длиннее подсказка, тем ниже частотность.</p>
+    </div>
+  </div>
+
+  <div class="how">
+    <div class="mock">
+      <div class="cap">Схема · Вордстат</div>
+      <div class="wrow"><span>ремонт ванной</span><span>много</span></div>
+      <div class="wrow hl"><span>ремонт ванной под ключ</span><span>средне</span></div>
+      <div class="wrow"><span>ремонт ванной в хрущёвке</span><span>мало</span></div>
+      <div class="arrow">← сравниваешь запросы между собой</div>
+    </div>
+    <div>
+      <h3><span class="bl">2.</span> Яндекс Вордстат как ориентир</h3>
+      <p>На wordstat.yandex.ru (нужен вход в Яндекс) введи запрос и выбери регион. Сервис покажет, сколько раз в месяц такое ищут в Яндексе. Это не цифры Авито, поэтому смотри на разницу между запросами: какой из вариантов ходовой, а какой редкий.</p>
+    </div>
+  </div>
+
+  <div class="how">
+    <div class="mock">
+      <div class="cap">Схема · выдача по запросу</div>
+      <div class="mini pro"><i></i><span>Фирма, крупная карточка</span><em>продвиж.</em></div>
+      <div class="mini pro"><i></i><span>Фирма, крупная карточка</span><em>продвиж.</em></div>
+      <div class="mini"><i></i><span>Мастер</span></div>
+      <div class="arrow">← первый экран занят = конкуренция высокая</div>
+    </div>
+    <div>
+      <h3><span class="bl">3.</span> Конкуренция в своём городе</h3>
+      <p>Найди запрос на Авито в своём городе и посмотри на первый экран. Сплошь фирмы с крупными выделенными карточками, и они повторяются по разным запросам: конкуренция высокая. Сверху частники и простые карточки: низкая. Это ориентир: сомневаешься, пиши в задании «оцени сам».</p>
+    </div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>07</span></div>
+</section>
+
+<!-- ============ 6. ЧЕК-ЛИСТ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>04</b></span><span>Чек-лист</span></div>
+  <h2 style="font-size:28pt;margin-bottom:4mm">7 проверок перед тем, как <em>нажать «Разместить»</em></h2>
+  <div class="check">
+    <div><i></i><span><b>Один ключевой запрос, и он первый.</b> В ленте заголовок обрезается.</span></div>
+    <div><i></i><span><b>Частотность под конкуренцию.</b> Конкурентов много: запрос точнее.</span></div>
+    <div><i></i><span><b>Одно отличие, самое сильное.</b> Срок, гарантия, «под ключ», материал, район. Одно, а не четыре.</span></div>
+    <div><i></i><span><b>С первого взгляда ясно, что продаёшь.</b> Без загадок.</span></div>
+    <div><i></i><span><b>Не больше 50 символов с пробелами.</b> Столько обычно пускает поле. Сверяйся со счётчиком в редакторе.</span></div>
+    <div><i></i><span><b>Без штампов.</b> «Качественно», «профессионалы», «широкий спектр», «лучший». Их пролистывают.</span></div>
+    <div><i></i><span><b>Только правда.</b> Нейросеть любит дописать «бесплатную смету» от себя. Вычеркни.</span></div>
+  </div>
+  <div class="ban">
+    <h3>Что нельзя в названии по правилам Авито</h3>
+    <div class="chips"><span>цена</span><span>телефон, ссылки, соцсети</span><span>КАПС</span><span>недорого</span><span>акция</span><span>бонус</span><span>внимание</span><span>подарок</span><span>повторы слов</span><span>р а з р я д к а</span></div>
+    <p><b style="color:#fff">Да, цену в заголовок нельзя, даже «от 2000 ₽».</b> Это прямо написано в правилах. «Цену от» указывай в поле цены и в описании, иначе объявление могут отклонить.</p>
+    <div class="src">Источник: «Требования к качеству объявлений», раздел «Название объявления» · avito.ru/legal/rules/listings/items-quality</div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>08</span></div>
+</section>
+
+<!-- ============ 7. ЗАДАНИЕ 1 ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>05</b></span><span>Задание 1 · поиск</span></div>
+  <h2>Задание 1. Заголовки <em>под поиск</em></h2>
+  <div class="use"><span>Скопируй всё из рамки</span><b>→</b><span>Вставь в Чат GPT или Claude</span><b>→</b><span>Допиши <span style="background:#E2EEFF;padding:0 1.5mm;border-radius:1mm">голубые поля</span></span><b>→</b><span>Отправь</span></div>
+  <div class="prompt"><span class="ptag">КОПИРУЙ ЦЕЛИКОМ</span>{{P1A}}</div>
+  <div class="cont">продолжение на следующей странице →</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>09</span></div>
+</section>
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>05</b></span><span>Задание 1 · продолжение</span></div>
+  <div class="prompt" style="margin-top:4mm"><span class="ptag">ПРОДОЛЖЕНИЕ, КОПИРУЙ ВМЕСТЕ С НАЧАЛОМ</span>{{P1B}}</div>
+  <div class="note" style="margin-top:6mm"><b>Голубые поля</b> это строки после двоеточия в «Мои данные»: в чате их видно как обычный текст, просто допиши после двоеточия. <b>Что получишь.</b> Таблицу из 9 запросов с пометками ВЧ/СЧ/НЧ, 10 заголовков с числом символов и тройку лучших с объяснением. Если какое-то поле пустое или написано размыто, нейросеть сначала задаст вопросы. Так и задумано: пусть лучше спросит, чем выдумает тебе гарантию.</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>10</span></div>
+</section>
+
+<!-- ============ 9. ЗАДАНИЕ 2 ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>06</b></span><span>Задание 2 · рекомендации</span></div>
+  <h2>Задание 2. Заголовки <em>под рекомендации</em></h2>
+  <div class="use"><span>Скопируй всё из рамки</span><b>→</b><span>Вставь в чат</span><b>→</b><span>Допиши <span style="background:#E2EEFF;padding:0 1.5mm;border-radius:1mm">голубые поля</span></span><b>→</b><span>Отправь</span></div>
+  <div class="prompt"><span class="ptag">КОПИРУЙ ЦЕЛИКОМ</span>{{P2A}}</div>
+  <div class="cont">продолжение на следующей странице →</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>11</span></div>
+</section>
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>06</b></span><span>Задание 2 · продолжение</span></div>
+  <div class="prompt" style="margin-top:4mm"><span class="ptag">ПРОДОЛЖЕНИЕ, КОПИРУЙ ВМЕСТЕ С НАЧАЛОМ</span>{{P2B}}</div>
+  <div class="note" style="margin-top:6mm"><b>Что получишь.</b> 10 заголовков с болью клиента, тройку лучших и по 3 идеи для фото-обложки к каждому. Фото в ленте работает в паре с заголовком: сильная боль и скучная картинка с логотипом не сработают.</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>12</span></div>
+</section>
+
+<!-- ============ 11. ДИАЛОГ ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>07</b></span><span>Что будет в чате</span></div>
+  <h2>Нейросеть начнёт <em>с вопросов</em></h2>
+  <p class="lead">И это хорошо. Я прогнала задание 2 на кровле в Твери с пустым полем «боль клиента». Ответ, коротко:</p>
+  <div class="chat">
+    <div class="bub me"><span class="who2">Ты</span>Задание 2. Кровля частных домов, Тверь. Клиент: владельцы домов, которым 15-30 лет. Боль клиента: <i>(пусто)</i></div>
+    <div class="bub ai"><span class="who2">Нейросеть</span>Поле с болью пустое, поэтому сначала вопросы, чтобы не придумывать за вас. «15-30 лет» это возраст владельцев или домов? Вот 5 вариантов боли для вашей ниши:
+      <ol><li>Крыша течёт, латали уже не раз.</li><li>Страх перед шабашниками: возьмут предоплату и пропадут.</li><li>Смета растёт по ходу работ.</li><li>Ремонт затянется на всё лето.</li><li>Непонятно, латать или менять целиком.</li></ol></div>
+    <div class="bub me"><span class="who2">Ты</span>Боль 1 и 2. Возраст домов. Чаще меняем шифер на металлочерепицу.</div>
+    <div class="bub ai"><span class="who2">Нейросеть</span>Беру ваши формулировки. «Латали дважды, а всё течёт? Перекроем крышу» …и ещё 9 вариантов.</div>
+  </div>
+  <h3>Если не зашло, допиши одну фразу</h3>
+  <div class="follow">
+    <div>Сделай ещё 10 вариантов, но короче, до 40 символов.</div>
+    <div>Возьми № 3 и дай 5 вариаций с другим отличием.</div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>13</span></div>
+</section>
+
+<!-- ============ 12. РАЗБОР 1 ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>08</b></span><span>Разбор 1 из 3</span></div>
+  <h2>Ремонт ванной в Питере: <em>высокая конкуренция</em></h2>
+  <div class="case-meta"><span class="on">Дорога А · поиск</span><span>Колпино и Пушкин</span><span>Чаще панельки и хрущёвки</span><span>Плитку кладёт сам</span><span>Гарантия 2 года</span><span>14-20 дней</span></div>
+  <div class="ba">
+    <div class="before">
+      <span class="lbl">Без задания · настоящий ответ нейросети</span>
+      <div class="tt">Ремонт ванной под ключ в Колпино <small>32</small></div>
+      <div class="tt">Ремонт ванной под ключ в Колпино. Смета бесплатно <small>49</small></div>
+      <div class="why">Запрос «ремонт ванной под ключ» в Питере ставят все, и твоё объявление теряется среди них. А «смету бесплатно» нейросеть придумала сама: в запросе про неё ничего не было.</div>
+    </div>
+    <div class="after">
+      <span class="lbl">С заданием 1 · тройка лучших из прогона</span>
+      <div class="tt">Ремонт ванной в панельном доме, гарантия 2 года <small class="ty">НЧ · 47</small></div>
+      <div class="tt">Ремонт ванной в Колпино, плитку кладу сам <small class="ty">НЧ · 41</small></div>
+      <div class="tt">Ремонт ванной в хрущевке за 14-20 дней <small class="ty">НЧ · 38</small></div>
+      <div class="why"><b>Что поменялось.</b> Нейросеть сама ушла от ВЧ «ремонт ванной» к НЧ: тип дома и район. Отличия взяты только из данных мастера. «Плитку кладу сам» звучит как живой человек.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>14</span></div>
+</section>
+
+<!-- ============ 13. РАЗБОР 2 ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>08</b></span><span>Разбор 2 из 3</span></div>
+  <h2>Щебень в Ногинске: <em>конкуренция низкая</em></h2>
+  <div class="case-meta"><span class="on">Дорога А · поиск</span><span>Свой самосвал 10 т</span><span>В день заказа</span><span>От 5 тонн</span></div>
+  <div class="ba">
+    <div class="before">
+      <span class="lbl">Без задания · настоящий ответ нейросети</span>
+      <div class="tt">Щебень с доставкой в Ногинске <small>29</small></div>
+      <div class="tt">Щебень от 1 тонны с доставкой, Ногинск <small>38</small></div>
+      <div class="why">Первый вариант неплохой. А второй опасен: возят от 5 тонн, а нейросеть написала «от 1 тонны». Такой заголовок соберёт звонки людей, которым ты всё равно откажешь.</div>
+    </div>
+    <div class="after">
+      <span class="lbl">С заданием 1 · тройка лучших из прогона</span>
+      <div class="tt">Щебень с доставкой в день заказа <small class="ty">ВЧ · 32</small></div>
+      <div class="tt">Щебень с доставкой самосвалом 10 тонн <small class="ty">ВЧ · 37</small></div>
+      <div class="tt">Щебень с доставкой по Ногинску <small class="ty">ВЧ · 30</small></div>
+      <div class="why"><b>Что поменялось.</b> То же задание, но конкуренция низкая, и нейросеть правильно оставила общий запрос: его ищут больше всего, а толкаться не с кем. Узкие запросы вроде «гранитный щебень 20-40» она предложила оставить для второго объявления. «В день заказа» про главное на стройке: щебень нужен сегодня. Второй вариант я бы поправила на «свой самосвал 10 т», чтобы не читалось как «только по 10 тонн». Так выглядит та самая проверка глазами мастера.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>15</span></div>
+</section>
+
+<!-- ============ 14. РАЗБОР 3 ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>08</b></span><span>Разбор 3 из 3</span></div>
+  <h2>Кровля в Твери: <em>под рекомендации</em></h2>
+  <div class="case-meta"><span class="on">Дорога Б · лента</span><span>Своя бригада</span><span>Гарантия 5 лет</span><span>Шифер → металлочерепица</span></div>
+  <div class="ba">
+    <div class="before">
+      <span class="lbl">Без задания · настоящий ответ нейросети</span>
+      <div class="tt">Ремонт и монтаж кровли частных домов, Тверь <small>43</small></div>
+      <div class="tt">Кровельные работы под ключ в Твери <small>34</small></div>
+      <div class="why">Так пишет специалист, а клиент говорит «крыша течёт». В ленте, где человек ничего не искал, «кровельные работы» не остановят палец.</div>
+    </div>
+    <div class="after">
+      <span class="lbl">С заданием 2 · тройка лучших из прогона</span>
+      <div class="tt">Латали дважды, а всё течёт? Перекроем крышу <small class="ty">43</small></div>
+      <div class="tt">Боитесь шабашников? Кровля своей бригадой <small class="ty">41</small></div>
+      <div class="tt">Старый шифер течёт? Меняем на металлочерепицу <small class="ty">45</small></div>
+      <div class="why"><b>Что поменялось.</b> Ситуация клиента его словами, ответ из фактов мастера.</div>
+    </div>
+  </div>
+  <h3 style="margin-top:5mm; font-size:16pt">Идеи для фото к «Латали дважды…» от нейросети</h3><p class="small" style="margin:0 0 1mm">Дрона нет? Кадр 2 и 3 снимаются с телефона с лестницы или от угла участка.</p>
+  <div class="photo">
+    <div><b>КАДР 1</b>Старый шифер с заплатами и герметиком, снято с дрона сверху.</div>
+    <div><b>КАДР 2</b>Половина крыши уже в металлочерепице, половина в шифере. Один кадр, не коллаж.</div>
+    <div><b>КАДР 3</b>Готовая крыша целиком, с дрона под углом около 45°.</div>
+  </div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>16</span></div>
+</section>
+
+<!-- ============ 15. ПРОВЕРКА ============ -->
+<section class="page">
+  <div class="mark"><span>Заголовок / <b>09</b></span><span>Через 7-10 дней</span></div>
+  <h2>Как понять, что заголовок <em>работает</em></h2>
+  <p class="lead">Ставишь заголовок, ждёшь 7-10 дней и смотришь в статистике объявления две цифры: просмотры и контакты (сообщения и звонки).</p>
+  <div class="tree">
+    <div class="branch"><div class="if">Просмотров мало</div><div class="then">Заголовок не попадает в поиск. Поменяй ключевой запрос на соседний по частотности: при сильной конкуренции на более узкий, а если просмотров почти нет совсем, то на более общий.</div></div>
+    <div class="branch"><div class="if">Просмотры есть, контактов нет</div><div class="then">Заголовок свою работу сделал, человек зашёл. Дело в том, что внутри: фото, цена, описание, отзывы. Заголовок тут не трогай.</div></div>
+    <div class="branch"><div class="if">Пишут, но не те</div><div class="then">Запрос слишком общий или в ленте боль слишком широкая. Сузь: добавь тип объекта, материал или район.</div></div>
+    <div class="branch"><div class="if">Всё растёт</div><div class="then">Ничего не трогай. Самый быстрый способ испортить рабочее объявление: начать его «улучшать».</div></div>
+  </div>
+  <div class="note" style="margin-top:6mm"><b>Правка заголовка отправит объявление на проверку</b>, по справке Авито обычно это от 2 до 30 минут. <b>Одно изменение за раз.</b> Поменяешь заголовок и фото разом, и не поймёшь, что сработало. Цифр роста не обещаю: всё зависит от ниши, города и сезона.</div>
+  <div class="foot"><span>Евгения | @musinpushkina</span><span>17</span></div>
+</section>
+
+<!-- ============ 16. ФИНАЛ ============ -->
+<section class="page dark final">
+  <div class="mark"><span>Заголовок / <b>10</b></span><span>Дальше</span></div>
+  <div class="line-blue" style="margin:0 -17mm"></div>
+  <h2>Пришли мне свои <em>3 заголовка</em> из нейросети</h2>
+  <p class="lead">Скажу, какой брать и что поправить. Без продаж и созвонов на час: просто напиши в личку, приложи тройку лучших и ссылку на своё объявление, если оно уже есть.</p>
+  <a class="pill" href="https://t.me/ZhennyAv">Написать в Телеграм →</a>
+  <div class="tg"><a href="https://t.me/ZhennyAv">t.me/ZhennyAv</a></div>
+  <p class="lead" style="margin-top:12mm; font-size:15pt">А как я подбираю ключевые запросы под конкуренцию для клиентов, показываю на живых объявлениях в Телеграме.</p>
+  <div class="bysign">Евгения | @musinpushkina<span>Авитолог · реклама и продвижение малого бизнеса на Авито</span></div>
+</section>
+
+</body>
+</html>
