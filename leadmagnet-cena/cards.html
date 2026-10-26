@@ -1,0 +1,100 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#F0C048;--gold-d:#E3A92E;--txt:#E9E7E2;--mut:#8B8984;--bg:#0B0B0C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;font-family:Inter,sans-serif}
+.card{width:1010px;height:1335px;position:relative;overflow:hidden;padding:56px 46px 46px;
+ background:radial-gradient(900px 500px at 0% 0%,#2a2418 0%,transparent 60%),linear-gradient(180deg,#141414,#0a0a0a);
+ border:1px solid #2a2720;border-radius:28px;color:var(--txt);display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:center}
+.pill{background:linear-gradient(180deg,#F5CC5A,#E2A930);color:#141006;font-family:'Russo One';font-size:24px;padding:18px 26px;border-radius:40px;letter-spacing:.5px}
+.handle{font-family:'Russo One';color:var(--gold);font-size:25px}
+.kicker{margin-top:52px;font-family:'Russo One';color:var(--mut);font-size:21px;letter-spacing:3px}
+h1{font-family:'Russo One';font-weight:400;font-size:74px;line-height:1.02;margin-top:10px;color:#fff}
+h1 span{color:var(--gold)}
+.lead{margin-top:18px;font-size:27px;line-height:1.42;color:#B9B6AF}
+.box{margin-top:30px;background:linear-gradient(180deg,#2b2616,#1d1a12);border:1px solid #4a3f22;border-radius:22px;padding:26px 32px;font-family:'Russo One';color:var(--gold);font-size:33px;line-height:1.35}
+ul{list-style:none;margin-top:30px}
+li{position:relative;padding-left:58px;font-size:27px;line-height:1.42;margin-bottom:20px}
+li:before{content:"✦";position:absolute;left:4px;top:0;color:var(--gold);font-size:26px}
+b{font-weight:800;color:#fff}
+.g{color:var(--gold)}
+.foot{margin-top:auto;padding-bottom:22px;border-bottom:1px solid #2a2720;font-size:22px;color:var(--mut)}
+.ad{border-radius:20px;padding:24px 28px;margin-top:22px}
+.bad{background:#1a1212;border:1px solid #4a2626}
+.good{background:#121a14;border:1px solid #2c4a33}
+.tag{font-family:'Russo One';font-size:20px;letter-spacing:2px;margin-bottom:12px}
+.bad .tag{color:#E2665A}.good .tag{color:#6FCF86}
+.ttl{font-size:29px;font-weight:800;color:#fff;margin-bottom:6px}
+.price{font-family:'Russo One';font-size:31px;color:var(--gold);margin-bottom:12px}
+.bad .price{color:#9a9792}
+.row{font-size:24px;line-height:1.42;color:#CFCCC5;margin-top:8px}
+.row b{color:#fff}
+.note{font-size:23px;color:#9a9792;margin-top:10px;line-height:1.4}
+.chk{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:20px}
+.chk div{font-size:24px;color:#E9E7E2}
+.chk div:before{content:"☐ ";color:var(--gold)}
+.sub{font-family:'Russo One';color:var(--gold);font-size:24px;margin-top:28px}
+</style></head><body>
+
+<div class="card" id="c1">
+ <div class="top"><div class="pill">КОММЕНТ: «ЦЕНА»</div><div class="handle">@musinpushkina</div></div>
+ <div class="kicker">ШАБЛОН · 1 / 3</div>
+ <h1>ЦЕНА <span>без побега</span></h1>
+ <p class="lead">«От 900 000 ₽» и ни слова за что — клиент не понимает, что внутри, и уходит к тому, кто объяснил.</p>
+ <div class="box">Цена = вилка + что входит + что отдельно + срок</div>
+ <ul>
+  <li><b>Вилка</b> вместо «от»: 1,9–2,4 млн ₽. Без шока на звонке</li>
+  <li><b>Что входит</b> — 4–6 пунктов, которые можно представить</li>
+  <li><b>Что отдельно</b> — назови сам, пока не спросили. В крупных чеках больше всего боятся скрытых доплат</li>
+  <li><b>Срок</b> — в днях или неделях, не «быстро»</li>
+  <li>Куда: <b>поле «Цена»</b> — реальная нижняя граница, <b>первые строки описания</b> — вилка и состав</li>
+ </ul>
+ <div class="foot">Дальше — 2 готовых примера: модульные дома и ремонт →</div>
+</div>
+
+<div class="card" id="c2">
+ <div class="top"><div class="pill">КОММЕНТ: «ЦЕНА»</div><div class="handle">@musinpushkina</div></div>
+ <div class="kicker">ПРИМЕР · 2 / 3</div>
+ <h1>МОДУЛЬНЫЕ <span>дома</span></h1>
+ <div class="ad bad">
+  <div class="tag">✕ БЫЛО</div>
+  <div class="ttl">Модульный дом под ключ</div>
+  <div class="price">от 900 000 ₽</div>
+  <div class="note">Звоните, всё расскажем.</div>
+ </div>
+ <div class="ad good">
+  <div class="tag">✓ СТАЛО</div>
+  <div class="ttl">Модульный дом 36 м², 1 спальня + кухня-гостиная</div>
+  <div class="price">1,9–2,4 млн ₽</div>
+  <div class="row"><b>Входит:</b> каркас, утепление 200 мм, окна, внутренняя отделка, электрика, сантехническая разводка</div>
+  <div class="row"><b>Отдельно:</b> фундамент на сваях и доставка — считаем по адресу до договора</div>
+  <div class="row"><b>Срок:</b> 45–60 дней с подписания</div>
+  <div class="row"><b>От чего дороже:</b> терраса, панорамные окна, отделка «чистовая+»</div>
+ </div>
+ <div class="foot">Цифры в примере — иллюстративные, подставь свои.</div>
+</div>
+
+<div class="card" id="c3">
+ <div class="top"><div class="pill">КОММЕНТ: «ЦЕНА»</div><div class="handle">@musinpushkina</div></div>
+ <div class="kicker">ПРИМЕР · 3 / 3</div>
+ <h1>РЕМОНТ <span>квартир</span></h1>
+ <div class="ad bad">
+  <div class="tag">✕ БЫЛО</div>
+  <div class="ttl">Ремонт квартир</div>
+  <div class="price">от 3 000 ₽/м²</div>
+ </div>
+ <div class="ad good">
+  <div class="tag">✓ СТАЛО</div>
+  <div class="ttl">Ремонт под ключ, вторичка и новостройки</div>
+  <div class="price">14 000–18 000 ₽/м² — работа</div>
+  <div class="row"><b>Входит:</b> демонтаж, стены под покраску, электрика, сантехника, плитка, вывоз мусора</div>
+  <div class="row"><b>Отдельно:</b> материалы — смета до старта, без сюрпризов</div>
+  <div class="row"><b>Срок:</b> однушка 40 м² — 6–8 недель</div>
+ </div>
+ <div class="sub">Проверь своё объявление:</div>
+ <div class="chk"><div>вилка, а не «от»</div><div>что входит</div><div>что отдельно</div><div>срок</div><div>нет «цена по телефону»</div><div>цена в первых строках</div></div>
+ <div class="foot">Цифры в примере — иллюстративные, подставь свои.</div>
+</div>
+</body></html>
