@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ограничители для заголовков</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0e;
+    --bg2: #161617;
+    --text: #f2f2f0;
+    --muted: #9a9a96;
+    --line: #2a2a2b;
+    --gold: #f0c35a;
+    --gold-2: #e2a93a;
+    --trap: #FF6A1A;
+    --ok: #2EE6C4;
+  }
+  @page { size: 1080px 1350px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; font-family: 'Inter', sans-serif; color: var(--text); }
+  .card {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    padding: 64px 64px 56px;
+    background: radial-gradient(120% 60% at 50% 0%, #1c1a16 0%, var(--bg) 55%) , var(--bg);
+    display: flex; flex-direction: column;
+    page-break-after: always;
+  }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .badge {
+    background: linear-gradient(180deg, var(--gold), var(--gold-2));
+    color: #141414; font-family: 'Russo One', sans-serif; font-size: 30px;
+    padding: 18px 34px; border-radius: 40px; letter-spacing: .5px;
+  }
+  .handle { font-family: 'Russo One', sans-serif; color: var(--gold); font-size: 30px; }
+  .kicker {
+    margin-top: 46px; font-family: 'Russo One', sans-serif; color: var(--muted);
+    font-size: 24px; letter-spacing: 3px;
+  }
+  h1 {
+    font-family: 'Russo One', sans-serif; font-weight: 400; font-size: 70px; line-height: 1.04;
+    margin-top: 10px; letter-spacing: -.5px;
+  }
+  h1 em { font-style: normal; color: var(--gold); }
+  .sub { margin-top: 20px; font-size: 30px; line-height: 1.38; color: #cfcfcb; }
+  .sub b { color: var(--text); font-weight: 600; }
+
+  .not {
+    display: inline-block; background: var(--trap); color: #111; font-weight: 800;
+    padding: 0 10px; border-radius: 8px; text-decoration: line-through; text-decoration-thickness: 4px;
+  }
+  .lim { color: var(--ok); }
+  .lim-pill { background: rgba(46,230,196,.14); color: var(--ok); padding: 0 8px; border-radius: 8px; }
+
+  .vs {
+    margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .vs > div {
+    border-radius: 22px; padding: 22px 26px; font-size: 30px; line-height: 1.3; font-weight: 600;
+  }
+  .vs .bad { background: rgba(255,106,26,.08); border: 2px solid rgba(255,106,26,.55); }
+  .vs .good { background: rgba(46,230,196,.07); border: 2px solid rgba(46,230,196,.6); }
+  .vs small { display: block; font-size: 21px; font-weight: 500; color: var(--muted); margin-bottom: 8px; letter-spacing: .5px; }
+  .vs .bad small { color: var(--trap); }
+  .vs .good small { color: var(--ok); }
+
+  ul.types { list-style: none; margin-top: 30px; display: flex; flex-direction: column; gap: 19px; }
+  ul.types li { display: grid; grid-template-columns: 40px 1fr; font-size: 28px; line-height: 1.33; }
+  ul.types li::before { content: "✦"; color: var(--gold); font-size: 26px; padding-top: 2px; }
+  ul.types b { font-weight: 600; }
+  ul.types .ex { color: var(--gold); }
+  ul.types .note { color: var(--muted); font-size: 24px; }
+
+  .foot {
+    margin-top: auto; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 24px; line-height: 1.42; color: var(--muted);
+  }
+  .foot b { color: #d8d8d4; font-weight: 600; }
+
+  /* card 2 */
+  table.niches { width: 100%; border-collapse: collapse; margin-top: 18px; }
+  table.niches td { padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 26px; vertical-align: top; line-height: 1.3; }
+  table.niches td:first-child { color: var(--muted); width: 290px; white-space: nowrap; padding-right: 18px; }
+  table.niches td:last-child { color: var(--text); font-weight: 500; }
+  table.niches tr:last-child td { border-bottom: 0; }
+
+  .box {
+    margin-top: 18px; background: var(--bg2); border: 1px solid var(--line); border-radius: 22px;
+    padding: 18px 26px;
+  }
+  .box h3 { font-family: 'Russo One', sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
+  .box p { font-size: 25px; line-height: 1.4; color: #dcdcd8; }
+  .path { color: var(--text); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .chip {
+    font-size: 22px; padding: 4px 13px; border-radius: 30px;
+    border: 2px solid rgba(255,106,26,.6); color: var(--trap); text-decoration: line-through;
+  }
+  .cta {
+    margin-top: auto; border-radius: 24px; padding: 24px 30px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #151515;
+  }
+  .cta .t { font-size: 29px; font-weight: 700; line-height: 1.3; }
+  .cta .l { margin-top: 8px; font-size: 25px; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- КАРТОЧКА 1 -->
+<section class="card">
+  <div class="top">
+    <div class="badge">КОММЕНТ: «ЗАГОЛОВОК»</div>
+    <div class="handle">@musinpushkina</div>
+  </div>
+
+  <div class="kicker">ОГРАНИЧИТЕЛИ ДЛЯ СТРОЙКИ И РЕМОНТА</div>
+  <h1>ЗАГОЛОВОК, <em>что отсекает мелочь</em></h1>
+  <p class="sub">Пиши, что делаешь, а не что <b>НЕ</b> делаешь. Поиск не видит «не» — он видит только «мелкий ремонт».</p>
+
+  <div class="vs">
+    <div class="bad"><small>✕ ЗОВЁТ МЕЛОЧЬ</small>«Мелкий ремонт <span class="not">не</span> делаем»</div>
+    <div class="good"><small>✓ ОТСЕКАЕТ МЕЛОЧЬ</small>«Ремонт квартир <span class="lim">от&nbsp;30&nbsp;м²</span>»</div>
+  </div>
+
+  <ul class="types">
+    <li><div><b>Объём / площадь</b> → <span class="ex">«Ремонт квартир <span class="lim">от&nbsp;30&nbsp;м²</span>», «Стяжка пола <span class="lim">от&nbsp;50&nbsp;м²</span>»</span></div></li>
+    <li><div><b>Объект</b> → <span class="ex">«Отделка под ключ <span class="lim">от студии</span>», «Кровля <span class="lim">частных домов</span>»</span></div></li>
+    <li><div><b>Формат работ</b> → <span class="ex">«Ремонт ванной <span class="lim">под ключ</span>»</span> <span class="note">вместо «плитку поштучно не кладу»</span></div></li>
+    <li><div><b>Минимальный чек</b> → <span class="ex">«Электромонтаж квартиры <span class="lim">под ключ</span>»</span> <span class="note">+ в поле цены</span> <span class="lim">«от&nbsp;60&nbsp;000&nbsp;₽»</span></div></li>
+    <li><div><b>Этап / срок</b> → <span class="ex">«<span class="lim">Черновая</span> отделка <span class="lim">новостроек</span> за 14 дней»</span></div></li>
+    <li><div><b>Клиент</b> → <span class="ex">«Отделка коммерческих помещений <span class="lim">для бизнеса</span>»</span></div></li>
+  </ul>
+
+  <div class="foot">
+    Сначала ключевой запрос, потом <span class="lim">ограничитель</span>. До 50 знаков. <b>Без «не делаем», «не беру», «не выезжаю»</b>, «недорого», КАПСа и «звоните».
+  </div>
+</section>
+
+<!-- КАРТОЧКА 2 -->
+<section class="card">
+  <div class="top">
+    <div class="badge">КОММЕНТ: «ЗАГОЛОВОК»</div>
+    <div class="handle">@musinpushkina</div>
+  </div>
+
+  <div class="kicker" style="margin-top:36px">ГОТОВЫЕ ЗАГОЛОВКИ ПО НИШАМ</div>
+  <h1 style="font-size:58px">Бери <em>и вставляй</em></h1>
+
+  <table class="niches">
+    <tr><td>Ремонт квартир</td><td>Ремонт квартир под ключ <span class="lim">от&nbsp;40&nbsp;м²</span></td></tr>
+    <tr><td>Ванные</td><td>Ремонт ванной <span class="lim">под ключ, с демонтажем</span></td></tr>
+    <tr><td>Электрика</td><td>Электромонтаж <span class="lim">квартир и домов под ключ</span></td></tr>
+    <tr><td>Сантехника</td><td>Разводка сантехники <span class="lim">в квартире под ключ</span></td></tr>
+    <tr><td>Кровля</td><td>Кровля <span class="lim">частных домов от&nbsp;100&nbsp;м²</span></td></tr>
+    <tr><td>Фасады</td><td>Утепление и отделка фасадов <span class="lim">домов от&nbsp;100&nbsp;м²</span></td></tr>
+    <tr><td>Бани / дома</td><td>Строительство бань и домов <span class="lim">под ключ</span></td></tr>
+    <tr><td>Натяжные потолки</td><td>Натяжные потолки <span class="lim">на всю квартиру</span></td></tr>
+    <tr><td>Окна / балконы</td><td>Остекление и отделка балконов <span class="lim">под ключ</span></td></tr>
+  </table>
+
+  <div class="box">
+    <h3>ПРОВЕРЬ СЕБЯ ЗА 1 МИНУТУ</h3>
+    <p><span class="path">Статистика объявления → Место в поиске → Топ-запросы.</span> Там «мелкий ремонт», «поменять кран», «повесить полку»? Ограничитель не работает — переписывай.</p>
+  </div>
+
+  <div class="box">
+    <h3>СТОП-СЛОВА В ЗАГОЛОВКЕ</h3>
+    <div class="chips">
+      <span class="chip">не делаем</span><span class="chip">не беру</span><span class="chip">не выезжаю</span>
+      <span class="chip">мелкий</span><span class="chip">недорого</span><span class="chip">звоните</span>
+    </div>
+  </div>
+
+  <div class="cta" style="margin-top:20px">
+    <div class="t">Пришли свой заголовок в ЛС — подскажу ограничитель под твою нишу</div>
+    <div class="l">t.me/ZhennyAv · Евгения | @musinpushkina</div>
+  </div>
+</section>
+
+</body>
+</html>
