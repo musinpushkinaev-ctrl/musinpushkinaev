@@ -59,6 +59,20 @@ small, .note{font-size:14px; color:var(--muted)}
   display:flex; align-items:center; justify-content:center;
 }
 .cover-art img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.cover-art{align-items:flex-start; justify-content:flex-start}
+.cover-art::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(14,13,11,.55) 0%, transparent 45%)}
+.cover-title{position:relative; z-index:1; padding:26px 22px; display:flex; flex-direction:column; gap:10px}
+.cover-title .eyebrow{color:#D8CFBD}
+.photo{margin:0; display:flex; flex-direction:column; gap:8px}
+.photo img{display:block; width:100%; border-radius:18px}
+.photo figcaption{font-size:14px; color:var(--muted)}
+.field-shot{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; align-items:center}
+.field-shot img{display:block; width:100%; border-radius:16px; border:1px solid var(--line)}
+.field-notes{display:flex; flex-direction:column; gap:12px; font-size:15px; color:var(--muted)}
+.field-notes b{color:var(--gold); display:block; font-size:15px}
+.warn{display:none; background:var(--bad-soft); border:1px solid #4A241D; color:#F1B3A6; border-radius:10px; padding:10px 12px; font-size:14px}
+.warn.on{display:block}
+@media (max-width:520px){ .field-shot{grid-template-columns:1fr} }
 .tag{
   position:relative; width:62%; padding:34px 22px 26px; border-radius:14px 14px 18px 18px;
   background:var(--panel-2); border:1px solid var(--line); transform:rotate(-4deg);
@@ -208,18 +222,14 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
       <span class="pill">КОДОВОЕ СЛОВО: «ЦЕНА»</span>
       <span class="handle">@musinpushkina</span>
     </div>
-    <div class="cover-art" data-img="cover">
-      <!-- сюда встанет обложка из Flow: img/cover.png -->
-      <div class="tag" aria-hidden="true">
-        <span class="old">от 100 ₽</span>
-        <span class="new">1 800–2 400 ₽</span>
-        <span class="unit">за м², работа · срок 5–7 дней</span>
+    <div class="cover-art">
+      <img src="img/cover.jpg" alt="Рука мастера в рабочей перчатке держит пустой ценник над свежей плиткой">
+      <div class="cover-title">
+        <span class="eyebrow">Гайд для мастеров на Авито · 7 минут</span>
+        <h1>Цена <span class="gold">без побега</span></h1>
       </div>
-      <span class="art-hint">место под обложку из Flow · 3:4</span>
     </div>
     <div class="cover-text">
-      <span class="eyebrow">Гайд для мастеров на Авито · 7 минут</span>
-      <h1>Цена <span class="gold">без побега</span></h1>
       <p class="lead">Как указать цену, чтобы клиент не сбегал после первого звонка. Формула, примеры «было → стало», готовые ответы в чат и конструктор, который соберёт текст за тебя.</p>
     </div>
   </header>
@@ -230,7 +240,7 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
     <div class="toc">
       <div><b>Почему</b>«от 100 ₽» отпугивает больше клиентов, чем привлекает</div>
       <div><b>Формула</b>4 части честной цены, которые снимают шок на звонке</div>
-      <div><b>Куда</b>что ставить в поле «Цена», в описание и в первый ответ</div>
+      <div><b>Куда</b>что ставить в поле цены, что в описание, а что только в чат</div>
       <div><b>Примеры</b>плитка, сантехника, электрика: было → стало</div>
       <div><b>Скрипты</b>ответ на «сколько стоит?» в чате и по телефону</div>
       <div><b>Конструктор</b>впиши свои цифры и скопируй готовый текст</div>
@@ -242,6 +252,10 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
     <span class="eyebrow">Часть 1 · почему клиент сбегает</span>
     <h2>«От 100 ₽» — это <span class="gold">обещание</span>, которое ты потом нарушаешь</h2>
     <p class="lead">Клиент запоминает первую цифру, которую увидел. Всё, что ты скажешь потом, он сравнивает с ней.</p>
+    <figure class="photo">
+      <img src="img/client-run.jpg" alt="Мужчина в испуге выбегает из квартиры, за ним по полу тянется длинный чек">
+      <figcaption>Увидел «от 100 ₽», а услышал «2 000 за метр»</figcaption>
+    </figure>
 
     <div class="stack">
       <div class="reason">
@@ -269,14 +283,14 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <span class="ic">4</span>
         <div>
           <h3>Объявление могут отклонить</h3>
-          <p>Авито проверяет, похожа ли цена на правду. Мастера рассказывают, что объявления с ценой «от 50 ₽» отклоняли за недостоверную цену.</p>
+          <p>Авито ведёт свою статистику и знает примерные цены на каждую услугу. Цена «от 50 ₽» выглядит подозрительно низкой, и объявление могут просто не опубликовать.</p>
         </div>
       </div>
     </div>
 
     <div class="callout">
       <b>Главная мысль</b>
-      <p>Честная вилка отсеивает тех, кто не закажет, ещё до звонка. Звонков может стать чуть меньше, зато почти каждый — по делу.</p>
+      <p>Честная цена отсеивает тех, кто не закажет, ещё до звонка. Звонков может стать чуть меньше, зато почти каждый — по делу.</p>
     </div>
   </section>
 
@@ -288,9 +302,9 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
 
     <div class="parts">
       <div class="part">
-        <h3>Вилка вместо «от»</h3>
-        <p>Две реальные цифры: за сколько делаешь простой объект и за сколько сложный.</p>
-        <div class="swap"><s>от 500 ₽</s><i>1 800–2 400 ₽/м²</i></div>
+        <h3>Вилка</h3>
+        <p>Две реальные цифры: простой объект и сложный. В поле Авито влезает одно число, поэтому там ставишь честное «от», а вилку называешь в первом ответе.</p>
+        <div class="swap"><s>от 100 ₽</s><i>от 1 800 ₽ за м² → в чате 1 800–2 400</i></div>
       </div>
       <div class="part">
         <h3>Что входит</h3>
@@ -299,8 +313,8 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
       </div>
       <div class="part">
         <h3>Что отдельно</h3>
-        <p>Назови сам, пока не спросили. Скрытой доплаты боятся больше, чем высокой цены.</p>
-        <div class="swap"><s>уточняйте</s><i>демонтаж старой плитки — 300 ₽/м²</i></div>
+        <p>Назови сам, пока не спросили. Скрытой доплаты боятся больше, чем высокой цены. В описании без цифр, сумму скажешь в чате.</p>
+        <div class="swap"><s>уточняйте</s><i>демонтаж старой плитки считаю отдельно</i></div>
       </div>
       <div class="part">
         <h3>Срок</h3>
@@ -315,10 +329,18 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
   <section>
     <span class="eyebrow">Часть 3 · куда что ставить</span>
     <h2>У цены в объявлении <span class="gold">четыре места</span></h2>
+    <div class="field-shot">
+      <img src="img/avito-price-field.jpg" alt="Скриншот Авито: поле «Стоимость основной услуги», от 6 990 ₽, галочка «это начальная цена», тип стоимости «за услугу»">
+      <div class="field-notes">
+        <div><b>Одно число</b>Реальная нижняя граница за типовой объект, не за самый маленький заказ.</div>
+        <div><b>«Это начальная цена»</b>Ставь галочку, если сумма зависит от объекта. Тогда клиент увидит «от», и это будет честное «от».</div>
+        <div><b>Тип стоимости</b>Выбери ту единицу, в которой считает клиент: если для услуги есть вариант за м² или за час, бери его, а не «за услугу».</div>
+      </div>
+    </div>
     <dl class="map">
       <div class="row">
-        <dt>Поле «Цена»</dt>
-        <dd><b>Реальная нижняя граница</b> за типовой объект, не за самый маленький. В той единице, в которой считает клиент: м², точка, прибор, выезд.</dd>
+        <dt>Поле «Стоимость основной услуги»</dt>
+        <dd>Единственное место, где стоит <b>цифра цены</b>. Её клиент видит рядом с названием объявления.</dd>
       </div>
       <div class="row">
         <dt>Заголовок</dt>
@@ -326,11 +348,11 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
       </div>
       <div class="row">
         <dt>Первые 2–3 строки описания</dt>
-        <dd>Их видно без кнопки «Подробнее». Сюда — <b>что входит, что отдельно и срок</b>. Цифры в описании не должны спорить с полем «Цена».</dd>
+        <dd>Их видно без кнопки «Подробнее». Сюда — <b>что входит, что отдельно, срок и от чего дороже</b>. Словами, <b>без цифр цены</b>: Авито может принять их за акцию и не опубликовать объявление. Цена — строго в спецполе.</dd>
       </div>
       <div class="row">
         <dt>Первый ответ в чате</dt>
-        <dd><b>Вилка и два вопроса</b>, которые нужны для точной суммы. Готовый текст ниже, в части 5.</dd>
+        <dd>Здесь наконец звучит <b>вилка</b>, суммы за допработы и <b>два вопроса</b> для точной цены. Готовый текст в части 6.</dd>
       </div>
     </dl>
   </section>
@@ -339,7 +361,7 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
   <section>
     <span class="eyebrow">Часть 4 · за что именно цена</span>
     <h2>Считай в единицах <span class="gold">клиента</span></h2>
-    <p class="lead">«Ремонт ванной от 5 000 ₽» ничего не говорит. «Плитка 1 800–2 400 ₽ за м²» сразу можно умножить на свою площадь.</p>
+    <p class="lead">«Ремонт ванной от 5 000 ₽ за услугу» ничего не говорит. «Плитка от 1 800 ₽ за м²» сразу можно умножить на свою площадь. Единицу выбирай в поле «Тип стоимости».</p>
     <div class="scroll">
       <table>
         <thead><tr><th>Услуга</th><th>Единица</th><th>Дороже, если…</th></tr></thead>
@@ -376,11 +398,11 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <div class="ad-body">
           <span class="mark">✓ СТАЛО</span>
           <span class="name">Укладка плитки в ванной и на кухне</span>
-          <span class="price">1 800–2 400 ₽/м²</span>
-          <span class="desc"><b>Входит:</b> подготовка основания, укладка, подрезка, затирка, вывоз мусора.<br><b>Отдельно:</b> демонтаж старой плитки — 300 ₽/м², материал ваш.<br><b>Срок:</b> ванная 4 м² — 5–7 дней.</span>
+          <span class="price">от 1 800 ₽ за м²</span>
+          <span class="desc"><b>Входит:</b> подготовка основания, укладка, подрезка, затирка, вывоз мусора.<br><b>Отдельно:</b> демонтаж старой плитки, материал.<br><b>Срок:</b> ванная 4 м² — 5–7 дней.<br><b>Дороже, если:</b> крупный формат, диагональ, кривые стены.</span>
         </div>
       </div>
-      <p class="why">На фото — твой объект, а не логотип. Клиент сразу видит работу и может прикинуть сумму на свою площадь.</p>
+      <p class="why">«От» осталось, но теперь оно честное: это цена за метр на обычном объекте. На фото твой объект, а не логотип.</p>
     </div>
 
     <div class="case">
@@ -399,11 +421,11 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <div class="ad-body">
           <span class="mark">✓ СТАЛО</span>
           <span class="name">Установка и замена унитаза, раковины, смесителя</span>
-          <span class="price">2 500–4 000 ₽ за прибор</span>
-          <span class="desc"><b>Входит:</b> демонтаж старого, установка, подключение, проверка на протечки.<br><b>Отдельно:</b> гофра и шланги по чеку, вывоз старого прибора — 500 ₽.<br><b>Срок:</b> 1–2 часа, приезд в день заявки.</span>
+          <span class="price">от 2 500 ₽ за услугу</span>
+          <span class="desc"><b>Входит:</b> демонтаж старого, установка, подключение, проверка на протечки.<br><b>Отдельно:</b> гофра и шланги по чеку, вывоз старого прибора.<br><b>Срок:</b> 1–2 часа, приезд в день заявки.</span>
         </div>
       </div>
-      <p class="why">«Цена по телефону» звучит как «дорого, но не скажу». Вилка за прибор снимает этот страх.</p>
+      <p class="why">«Цена по телефону» звучит как «дорого, но не скажу». Реальная цифра за один прибор снимает этот страх.</p>
     </div>
 
     <div class="case">
@@ -422,13 +444,13 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <div class="ad-body">
           <span class="mark">✓ СТАЛО</span>
           <span class="name">Электрик: розетки, выключатели, перенос точек</span>
-          <span class="price">600–1 000 ₽ за точку</span>
-          <span class="desc"><b>Входит:</b> подрозетник, установка, подключение, проверка.<br><b>Отдельно:</b> штробление бетона — 400 ₽/м, выезд от 5 точек бесплатно.<br><b>Срок:</b> квартира-однушка — 1–2 дня.</span>
+          <span class="price">от 600 ₽ за точку</span>
+          <span class="desc"><b>Входит:</b> подрозетник, установка, подключение, проверка.<br><b>Отдельно:</b> штробление бетона. Выезд бесплатно от 5 точек.<br><b>Срок:</b> квартира-однушка — 1–2 дня.</span>
         </div>
       </div>
       <p class="why">Условие «от 5 точек выезд бесплатно» отвечает на вопрос, который клиент постеснялся бы задать.</p>
     </div>
-    <p class="note">Цифры в примерах иллюстративные. Подставь свои, по рынку твоего города.</p>
+    <p class="note">Заметь: в описании нет ни одной цифры в рублях. Цена стоит только в спецполе, суммы за допработы — в чате. Цифры в примерах иллюстративные, подставь свои.</p>
   </section>
 
   <!-- 6. СКРИПТЫ -->
@@ -442,7 +464,7 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <span class="eyebrow">Ответ в чат Авито</span>
         <button class="btn" type="button" data-copy="chat1">Скопировать</button>
       </div>
-      <div class="bubble" id="chat1">Здравствуйте! Укладка плитки у меня 1 800–2 400 ₽ за м², это работа. Входит подготовка, укладка, затирка и вывоз мусора.
+      <div class="bubble" id="chat1">Здравствуйте! Укладка плитки у меня 1 800–2 400 ₽ за м², это работа. Входит подготовка, укладка, затирка и вывоз мусора. Демонтаж старой плитки, если нужен, +300 ₽ за м².
 Чтобы назвать точную сумму, пришлите, пожалуйста:
 1) площадь или размеры комнаты
 2) фото стен или пола и формат плитки
@@ -491,21 +513,23 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
         <label class="full">Услуга словами клиента<input id="f-service" value="Укладка плитки в ванной и на кухне"></label>
         <label>Цена от, ₽<input id="f-min" inputmode="numeric" value="1800"></label>
         <label>Цена до, ₽<input id="f-max" inputmode="numeric" value="2400"></label>
-        <label>За что цена<input id="f-unit" value="за м², работа"></label>
+        <label>Тип стоимости<input id="f-unit" value="за м²"></label>
         <label>Срок<input id="f-term" value="ванная 4 м² — 5–7 дней"></label>
         <label class="full">Что входит<textarea id="f-in">подготовка основания, укладка, подрезка, затирка, вывоз мусора</textarea></label>
-        <label class="full">Что отдельно<textarea id="f-out">демонтаж старой плитки — 300 ₽/м², материал ваш</textarea></label>
+        <label class="full">Что отдельно (словами, без цены)<textarea id="f-out">демонтаж старой плитки, материал</textarea></label>
+        <label class="full">Сколько стоит отдельное (это пойдёт только в чат)<input id="f-extra" value="демонтаж +300 ₽ за м²"></label>
         <label class="full">Дороже, если…<input id="f-more" value="крупный формат, диагональ, кривые стены"></label>
         <label class="full">Что нужно от клиента для точной цены<input id="f-ask" value="площадь и фото стен или пола"></label>
       </div>
 
       <div class="out">
         <div class="out-block">
-          <div class="script-head"><span class="eyebrow">Поле «Цена»</span></div>
+          <div class="script-head"><span class="eyebrow">Поле «Стоимость основной услуги»</span></div>
           <div class="bubble" id="o-price"></div>
         </div>
         <div class="out-block">
           <div class="script-head"><span class="eyebrow">Первые строки описания</span><button class="btn" type="button" data-copy="o-desc">Скопировать</button></div>
+          <div class="warn" id="o-warn">В описании есть цена в рублях. Убери её: Авито может принять это за акцию и не опубликовать объявление. Цена ставится только в спецполе.</div>
           <div class="bubble" id="o-desc"></div>
         </div>
         <div class="out-block">
@@ -521,9 +545,9 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
     <span class="eyebrow">Часть 9 · проверь своё объявление</span>
     <h2>Чек-лист: <span class="score" id="score">0 из 7</span></h2>
     <div class="check" id="checklist">
-      <label><input type="checkbox" id="c1"> В поле «Цена» стоит реальная нижняя граница, а не 100 ₽</label>
-      <label><input type="checkbox" id="c2"> Цена указана в единице клиента: м², точка, прибор, выезд</label>
-      <label><input type="checkbox" id="c3"> В первых строках описания есть «входит» и «отдельно»</label>
+      <label><input type="checkbox" id="c1"> В поле цены стоит реальная нижняя граница, а не 100 ₽</label>
+      <label><input type="checkbox" id="c2"> «Тип стоимости» совпадает с тем, как считает клиент: м², час, услуга</label>
+      <label><input type="checkbox" id="c3"> В первых строках описания есть «входит» и «отдельно», и в нём нет цифр в рублях</label>
       <label><input type="checkbox" id="c4"> Срок указан в днях или неделях</label>
       <label><input type="checkbox" id="c5"> Нигде нет фразы «цена по телефону»</label>
       <label><input type="checkbox" id="c6"> Готов шаблон ответа на «сколько стоит?»</label>
@@ -535,8 +559,8 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
   <section class="final">
     <span class="eyebrow" style="color:#5A4718">Дальше</span>
     <h2>Цена — пятый пункт из пяти</h2>
-    <p>Если клиент всё равно не пишет, причина может быть в другом пункте: скорость ответа, отзывы, текст или точка на карте. Пришли ссылку на своё объявление — скажу, какой пункт у тебя хромает.</p>
-    <div class="todo">Напиши мне в директ слово «РАЗБОР» и ссылку на объявление</div>
+    <p>Если клиент всё равно не пишет, причина может быть в другом пункте: скорость ответа, отзывы, текст или точка на карте. На консультации разберём твоё объявление целиком и найдём, какой пункт хромает.</p>
+    <div class="todo">Напиши мне в директ слово «КОНСУЛЬТАЦИЯ»</div>
   </section>
 
   <footer>
@@ -569,16 +593,18 @@ footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex
     var unit = $('f-unit').value.trim(), term = $('f-term').value.trim();
     var inc = $('f-in').value.trim(), out = $('f-out').value.trim();
     var more = $('f-more').value.trim(), ask = $('f-ask').value.trim();
-    $('o-price').textContent = min + ' ₽' + (unit ? ' (' + unit + ')' : '');
+    var extra = $('f-extra').value.trim();
+    $('o-price').textContent = min + ' ₽\n✓ это начальная цена\nТип стоимости: ' + (unit || 'за услугу');
     var d = s + '.\n';
     if (inc) d += 'Входит: ' + inc + '.\n';
     if (out) d += 'Отдельно: ' + out + '.\n';
     if (term) d += 'Срок: ' + term + '.\n';
     if (more) d += 'Дороже, если: ' + more + '.';
     $('o-desc').textContent = d.trim();
+    $('o-warn').classList.toggle('on', /\d[\d\s]*(₽|р\.|руб)/i.test(d));
     var c = 'Здравствуйте! ' + s + ' у меня ' + min + '–' + max + ' ₽' + (unit ? ' ' + unit : '') + '.';
     if (inc) c += ' Входит: ' + inc + '.';
-    if (out) c += ' Отдельно: ' + out + '.';
+    if (out) c += ' Отдельно: ' + out + (extra ? ' (' + extra + ')' : '') + '.';
     c += '\nЧтобы назвать точную сумму, пришлите, пожалуйста, ' + (ask || 'фото и размеры') + '. Посчитаю и отвечу сегодня.';
     $('o-chat').textContent = c;
   }
