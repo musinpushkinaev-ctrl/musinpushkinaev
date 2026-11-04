@@ -1,0 +1,601 @@
+<title>Цена без побега</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: одна узкая колонка «как в телефоне», карточки-объявления Авито как главный наглядный приём; фирменный стиль из карусели @musinpushkina — тёмный + золото */
+:root{
+  --bg:#0E0D0B;
+  --panel:#17150F;
+  --panel-2:#1E1B13;
+  --line:#2D281C;
+  --text:#F3EEE3;
+  --muted:#A39C8C;
+  --gold:#EBBE52;
+  --gold-soft:#3A2F14;
+  --bad:#E57360;
+  --bad-soft:#2A1612;
+  --good:#6CC48B;
+  --good-soft:#12241A;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--f-body); font-size:17px; line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:0 48px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:680px; margin:0 auto; display:flex; flex-direction:column; gap:64px}
+h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; letter-spacing:-.01em}
+h1{font-size:clamp(40px, 11vw, 64px); line-height:1.02; font-weight:800; text-transform:uppercase}
+h2{font-size:clamp(26px, 6.4vw, 36px); line-height:1.12; font-weight:700}
+h3{font-size:18px; line-height:1.3; font-weight:700}
+.gold{color:var(--gold)}
+p{margin:0}
+.eyebrow{font-family:var(--f-display); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); font-weight:500}
+.lead{color:var(--muted); font-size:18px}
+section{display:flex; flex-direction:column; gap:20px}
+.stack{display:flex; flex-direction:column; gap:12px}
+small, .note{font-size:14px; color:var(--muted)}
+
+/* ---------- обложка ---------- */
+.cover{display:flex; flex-direction:column; gap:22px; padding-top:28px}
+.top{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.pill{background:var(--gold); color:#1A1406; font-family:var(--f-display); font-weight:700; font-size:13px; letter-spacing:.04em; padding:9px 16px; border-radius:999px}
+.handle{font-family:var(--f-display); color:var(--gold); font-size:13px}
+.cover-art{
+  position:relative; aspect-ratio:3/4; max-width:100%; border-radius:22px; overflow:hidden;
+  background:
+    radial-gradient(120% 70% at 75% 10%, #3B2E10 0%, transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0 59px, #221E15 59px 61px),
+    repeating-linear-gradient(90deg, transparent 0 59px, #221E15 59px 61px),
+    #12100C;
+  display:flex; align-items:center; justify-content:center;
+}
+.cover-art img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.tag{
+  position:relative; width:62%; padding:34px 22px 26px; border-radius:14px 14px 18px 18px;
+  background:var(--panel-2); border:1px solid var(--line); transform:rotate(-4deg);
+  display:flex; flex-direction:column; gap:10px; text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+}
+.tag::before{content:""; position:absolute; top:12px; left:50%; width:14px; height:14px; margin-left:-7px; border-radius:50%; background:var(--bg); border:2px solid var(--gold)}
+.tag::after{content:""; position:absolute; top:-70px; left:50%; width:2px; height:84px; background:linear-gradient(var(--gold), transparent); transform:rotate(12deg); transform-origin:bottom}
+.tag .old{font-family:var(--f-display); font-size:clamp(18px, 5vw, 26px); color:var(--bad); text-decoration:line-through; text-decoration-thickness:3px}
+.tag .new{white-space:nowrap; font-family:var(--f-display); font-size:clamp(16px, 4.6vw, 28px); color:var(--gold); font-weight:800; line-height:1.1}
+.tag .unit{font-size:13px; color:var(--muted)}
+.art-hint{position:absolute; left:14px; bottom:12px; font-size:12px; color:#6F6858}
+.cover-text{display:flex; flex-direction:column; gap:14px}
+
+/* ---------- что внутри ---------- */
+.toc{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px}
+.toc div{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-weight:600; font-size:15px; line-height:1.35}
+.toc b{display:block; font-family:var(--f-display); color:var(--gold); font-size:13px; margin-bottom:4px}
+
+/* ---------- причины ---------- */
+.reason{display:grid; grid-template-columns:44px 1fr; gap:14px; align-items:start}
+.reason .ic{width:44px; height:44px; border-radius:12px; background:var(--gold-soft); color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:800}
+.reason div:last-child{min-width:0; display:flex; flex-direction:column; gap:4px}
+.reason p{color:var(--muted)}
+.callout{background:var(--gold-soft); border:1px solid #5A4718; border-radius:16px; padding:18px 20px; display:flex; flex-direction:column; gap:6px}
+.callout b{color:var(--gold)}
+
+/* ---------- формула ---------- */
+.formula{background:var(--panel); border:1px solid #5A4718; border-radius:18px; padding:22px 20px; font-family:var(--f-display); font-weight:700; font-size:clamp(17px, 4.4vw, 22px); line-height:1.45; color:var(--gold)}
+.formula span{color:var(--text)}
+.parts{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.part{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:6px; min-width:0}
+.part h3{font-size:15px; color:var(--gold)}
+.part p{font-size:15px; color:var(--muted)}
+.swap{display:flex; flex-wrap:wrap; gap:6px; font-size:14px; margin-top:2px}
+.swap s{color:var(--bad)}
+.swap i{font-style:normal; color:var(--good)}
+
+/* ---------- куда писать ---------- */
+.map{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:18px; overflow:hidden}
+.row{display:grid; grid-template-columns:minmax(0,150px) 1fr; gap:16px; padding:16px 18px; border-top:1px solid var(--line); background:var(--panel)}
+.row:first-child{border-top:none}
+.row dt{font-weight:700; color:var(--gold); font-size:15px}
+.row dd{margin:0; color:var(--muted); font-size:15px; min-width:0}
+.row dd b{color:var(--text)}
+
+/* ---------- единицы ---------- */
+.scroll{overflow-x:auto; border:1px solid var(--line); border-radius:16px}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:15px}
+th,td{text-align:left; padding:12px 14px; border-top:1px solid var(--line); vertical-align:top}
+th{font-family:var(--f-display); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:500; border-top:none; background:var(--panel)}
+td:first-child{font-weight:700}
+td .u{color:var(--gold); font-weight:700; white-space:nowrap}
+
+/* ---------- карточки объявлений ---------- */
+.case{display:flex; flex-direction:column; gap:10px}
+.case-title{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.ad{border-radius:16px; padding:16px 18px; display:grid; grid-template-columns:72px 1fr; gap:14px; border:1px solid}
+.ad.bad{background:var(--bad-soft); border-color:#4A241D}
+.ad.good{background:var(--good-soft); border-color:#24452F}
+.thumb{width:72px; height:72px; border-radius:10px; position:relative; overflow:hidden}
+.bad .thumb{background:#2C2622; display:flex; align-items:center; justify-content:center; color:#5F554D; font-size:11px; font-weight:700; text-align:center}
+.good .thumb.tile{background:
+  repeating-linear-gradient(90deg, transparent 0 22px, #0E0D0B 22px 24px),
+  repeating-linear-gradient(0deg, transparent 0 22px, #0E0D0B 22px 24px),
+  linear-gradient(135deg, #D9CDB6, #A99878)}
+.good .thumb.pipe{background:linear-gradient(160deg,#E9E4DA 0 55%, #C9C1B1 55%)}
+.good .thumb.pipe::before{content:""; position:absolute; left:20px; top:14px; width:32px; height:38px; border-radius:6px 6px 14px 14px; background:#fff; box-shadow:0 0 0 2px #B7AE9C}
+.good .thumb.el{background:#E8E2D6}
+.good .thumb.el::before{content:""; position:absolute; left:16px; top:20px; width:40px; height:32px; border-radius:6px; background:#fff; box-shadow:0 0 0 2px #B7AE9C, inset 12px 0 0 -10px #B7AE9C}
+.good .thumb.el::after{content:""; position:absolute; left:27px; top:30px; width:6px; height:6px; border-radius:50%; background:#3A3630; box-shadow:12px 0 0 #3A3630}
+.ad-body{min-width:0; display:flex; flex-direction:column; gap:4px}
+.ad .mark{font-family:var(--f-display); font-size:11px; letter-spacing:.12em; font-weight:700}
+.bad .mark{color:var(--bad)} .good .mark{color:var(--good)}
+.ad .name{font-weight:700; font-size:16px; line-height:1.3}
+.ad .price{font-family:var(--f-display); font-weight:700; font-size:18px}
+.bad .price{color:#C9B9B0}
+.good .price{color:var(--gold)}
+.ad .desc{font-size:14px; color:var(--muted); line-height:1.5}
+.ad .desc b{color:var(--text); font-weight:600}
+.why{font-size:14px; color:var(--muted); padding-left:4px}
+
+/* ---------- скрипты ---------- */
+.script{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:18px 18px 14px; display:flex; flex-direction:column; gap:12px}
+.script-head{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.bubble{background:var(--panel-2); border:1px solid var(--line); border-radius:16px 16px 16px 4px; padding:14px 16px; font-size:16px; white-space:pre-line}
+.btn{
+  appearance:none; border:1px solid var(--gold); background:transparent; color:var(--gold);
+  font-family:var(--f-body); font-weight:700; font-size:14px; padding:8px 14px; border-radius:999px; cursor:pointer;
+}
+.btn:hover{background:var(--gold); color:#1A1406}
+.btn:focus-visible, input:focus-visible, textarea:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.steps{display:flex; flex-direction:column; gap:10px; counter-reset:s; padding:0; margin:0; list-style:none}
+.steps li{display:grid; grid-template-columns:32px 1fr; gap:12px; align-items:start}
+.steps li::before{counter-increment:s; content:counter(s); width:32px; height:32px; border-radius:50%; background:var(--gold); color:#1A1406; font-family:var(--f-display); font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center}
+.steps li div{min-width:0}
+.steps li i{display:block; font-style:normal; color:var(--muted); font-size:15px}
+
+/* ---------- конструктор ---------- */
+.builder{background:var(--panel); border:1px solid #5A4718; border-radius:20px; padding:20px; display:flex; flex-direction:column; gap:16px}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.fields .full{grid-column:1/-1}
+label{display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted); font-weight:600; min-width:0}
+input, textarea{
+  width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:10px;
+  padding:10px 12px; font:inherit; font-size:16px;
+}
+textarea{resize:vertical; min-height:64px}
+.out{display:flex; flex-direction:column; gap:12px}
+.out-block{display:flex; flex-direction:column; gap:8px}
+.out-block .eyebrow{color:var(--gold)}
+
+/* ---------- чек-лист ---------- */
+.check{display:flex; flex-direction:column; gap:8px}
+.check label{flex-direction:row; align-items:flex-start; gap:12px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-size:16px; color:var(--text); font-weight:500; cursor:pointer}
+.check input{width:22px; height:22px; flex:none; accent-color:var(--gold); margin:1px 0 0}
+.check label:has(input:checked){border-color:#24452F; background:var(--good-soft)}
+.score{font-family:var(--f-display); font-weight:700; color:var(--gold)}
+
+/* ---------- финал ---------- */
+.final{background:var(--gold); color:#1A1406; border-radius:24px; padding:28px 22px; display:flex; flex-direction:column; gap:14px}
+.final h2{color:#1A1406}
+.final p{font-size:17px}
+.final .todo{background:#1A1406; color:var(--gold); border-radius:12px; padding:12px 14px; font-weight:700; font-size:15px}
+footer{font-size:13px; color:var(--muted); text-align:center; display:flex; flex-direction:column; gap:4px}
+
+@media (max-width:520px){
+  .parts, .fields{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr; gap:4px}
+  .ad{grid-template-columns:56px 1fr}
+  .thumb{width:56px; height:56px}
+  .good .thumb.pipe::before{left:13px; top:9px}
+  .good .thumb.el::before{left:8px; top:12px}
+  .good .thumb.el::after{left:19px; top:22px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .tag{animation:sway 6s ease-in-out infinite; transform-origin:50% -60px}
+  @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-1deg)}}
+}
+</style>
+
+<div class="wrap">
+
+  <!-- ОБЛОЖКА -->
+  <header class="cover">
+    <div class="top">
+      <span class="pill">КОДОВОЕ СЛОВО: «ЦЕНА»</span>
+      <span class="handle">@musinpushkina</span>
+    </div>
+    <div class="cover-art" data-img="cover">
+      <!-- сюда встанет обложка из Flow: img/cover.png -->
+      <div class="tag" aria-hidden="true">
+        <span class="old">от 100 ₽</span>
+        <span class="new">1 800–2 400 ₽</span>
+        <span class="unit">за м², работа · срок 5–7 дней</span>
+      </div>
+      <span class="art-hint">место под обложку из Flow · 3:4</span>
+    </div>
+    <div class="cover-text">
+      <span class="eyebrow">Гайд для мастеров на Авито · 7 минут</span>
+      <h1>Цена <span class="gold">без побега</span></h1>
+      <p class="lead">Как указать цену, чтобы клиент не сбегал после первого звонка. Формула, примеры «было → стало», готовые ответы в чат и конструктор, который соберёт текст за тебя.</p>
+    </div>
+  </header>
+
+  <!-- ЧТО ВНУТРИ -->
+  <section>
+    <span class="eyebrow">Что внутри</span>
+    <div class="toc">
+      <div><b>Почему</b>«от 100 ₽» отпугивает больше клиентов, чем привлекает</div>
+      <div><b>Формула</b>4 части честной цены, которые снимают шок на звонке</div>
+      <div><b>Куда</b>что ставить в поле «Цена», в описание и в первый ответ</div>
+      <div><b>Примеры</b>плитка, сантехника, электрика: было → стало</div>
+      <div><b>Скрипты</b>ответ на «сколько стоит?» в чате и по телефону</div>
+      <div><b>Конструктор</b>впиши свои цифры и скопируй готовый текст</div>
+    </div>
+  </section>
+
+  <!-- 1. ПОЧЕМУ -->
+  <section>
+    <span class="eyebrow">Часть 1 · почему клиент сбегает</span>
+    <h2>«От 100 ₽» — это <span class="gold">обещание</span>, которое ты потом нарушаешь</h2>
+    <p class="lead">Клиент запоминает первую цифру, которую увидел. Всё, что ты скажешь потом, он сравнивает с ней.</p>
+
+    <div class="stack">
+      <div class="reason">
+        <span class="ic">1</span>
+        <div>
+          <h3>Шок на звонке</h3>
+          <p>Человек ждал 100 ₽, слышит 2 000 ₽ за метр — и чувствует себя обманутым, даже если цена рыночная. Он кладёт трубку и звонит следующему мастеру.</p>
+        </div>
+      </div>
+      <div class="reason">
+        <span class="ic">2</span>
+        <div>
+          <h3>Приходят не те клиенты</h3>
+          <p>Низкое «от» собирает тех, кто ищет самое дешёвое. Ты тратишь вечер на звонки людям, которые не закажут никогда, а нормальный клиент пролистал тебя, потому что «за 100 ₽ хорошо не сделают».</p>
+        </div>
+      </div>
+      <div class="reason">
+        <span class="ic">3</span>
+        <div>
+          <h3>Плохой отзыв и рейтинг</h3>
+          <p>Если на объекте сумма выросла в пять раз, клиент уходит недовольным. Он пишет отзыв, а отзывы и рейтинг — второй пункт из ролика, на который смотрит Авито.</p>
+        </div>
+      </div>
+      <div class="reason">
+        <span class="ic">4</span>
+        <div>
+          <h3>Объявление могут отклонить</h3>
+          <p>Авито проверяет, похожа ли цена на правду. Мастера рассказывают, что объявления с ценой «от 50 ₽» отклоняли за недостоверную цену.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <b>Главная мысль</b>
+      <p>Честная вилка отсеивает тех, кто не закажет, ещё до звонка. Звонков может стать чуть меньше, зато почти каждый — по делу.</p>
+    </div>
+  </section>
+
+  <!-- 2. ФОРМУЛА -->
+  <section>
+    <span class="eyebrow">Часть 2 · формула</span>
+    <h2>Цена без побега =</h2>
+    <div class="formula">вилка <span>+</span> что входит <span>+</span> что отдельно <span>+</span> срок</div>
+
+    <div class="parts">
+      <div class="part">
+        <h3>Вилка вместо «от»</h3>
+        <p>Две реальные цифры: за сколько делаешь простой объект и за сколько сложный.</p>
+        <div class="swap"><s>от 500 ₽</s><i>1 800–2 400 ₽/м²</i></div>
+      </div>
+      <div class="part">
+        <h3>Что входит</h3>
+        <p>4–6 пунктов, которые клиент может себе представить. Без «качественно и в срок».</p>
+        <div class="swap"><s>полный комплекс</s><i>затирка, подрезка, вывоз мусора</i></div>
+      </div>
+      <div class="part">
+        <h3>Что отдельно</h3>
+        <p>Назови сам, пока не спросили. Скрытой доплаты боятся больше, чем высокой цены.</p>
+        <div class="swap"><s>уточняйте</s><i>демонтаж старой плитки — 300 ₽/м²</i></div>
+      </div>
+      <div class="part">
+        <h3>Срок</h3>
+        <p>В днях или неделях. Слово «быстро» каждый понимает по-своему.</p>
+        <div class="swap"><s>быстро</s><i>ванная 4 м² — 5–7 дней</i></div>
+      </div>
+    </div>
+    <p class="note">Бонус для сложных работ: добавь строку «Дороже, если…» — крупный формат, диагональ, мозаика. Клиент сам поймёт, в какой конец вилки попадает.</p>
+  </section>
+
+  <!-- 3. КУДА ПИСАТЬ -->
+  <section>
+    <span class="eyebrow">Часть 3 · куда что ставить</span>
+    <h2>У цены в объявлении <span class="gold">четыре места</span></h2>
+    <dl class="map">
+      <div class="row">
+        <dt>Поле «Цена»</dt>
+        <dd><b>Реальная нижняя граница</b> за типовой объект, не за самый маленький. В той единице, в которой считает клиент: м², точка, прибор, выезд.</dd>
+      </div>
+      <div class="row">
+        <dt>Заголовок</dt>
+        <dd>Услуга <b>словами клиента</b>: «Укладка плитки в ванной», а не «Отделочные решения». Это пункт 3 из ролика, по нему тебя находят.</dd>
+      </div>
+      <div class="row">
+        <dt>Первые 2–3 строки описания</dt>
+        <dd>Их видно без кнопки «Подробнее». Сюда — <b>что входит, что отдельно и срок</b>. Цифры в описании не должны спорить с полем «Цена».</dd>
+      </div>
+      <div class="row">
+        <dt>Первый ответ в чате</dt>
+        <dd><b>Вилка и два вопроса</b>, которые нужны для точной суммы. Готовый текст ниже, в части 5.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- 4. ЕДИНИЦЫ -->
+  <section>
+    <span class="eyebrow">Часть 4 · за что именно цена</span>
+    <h2>Считай в единицах <span class="gold">клиента</span></h2>
+    <p class="lead">«Ремонт ванной от 5 000 ₽» ничего не говорит. «Плитка 1 800–2 400 ₽ за м²» сразу можно умножить на свою площадь.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Услуга</th><th>Единица</th><th>Дороже, если…</th></tr></thead>
+        <tbody>
+          <tr><td>Укладка плитки</td><td><span class="u">₽ за м²</span>, работа</td><td>крупный формат, диагональ, мозаика, кривые стены</td></tr>
+          <tr><td>Сантехника</td><td><span class="u">₽ за прибор</span></td><td>замена труб, скрытый монтаж, инсталляция</td></tr>
+          <tr><td>Электрика</td><td><span class="u">₽ за точку</span></td><td>бетон вместо гипсокартона, штробление, новый щит</td></tr>
+          <tr><td>Ремонт под ключ</td><td><span class="u">₽ за м² пола</span>, работа</td><td>новостройка без стяжки, сложный дизайн-проект</td></tr>
+          <tr><td>Мастер на час</td><td><span class="u">выезд + ₽ за час</span></td><td>срочный вызов, вечер и выходные, свой материал</td></tr>
+          <tr><td>Натяжные потолки</td><td><span class="u">₽ за м²</span> с полотном</td><td>много углов, светильники, парящий профиль</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. ПРИМЕРЫ -->
+  <section>
+    <span class="eyebrow">Часть 5 · было → стало</span>
+    <h2>Три объявления, <span class="gold">переписанные по формуле</span></h2>
+
+    <div class="case">
+      <div class="case-title"><h3>Плиточник</h3></div>
+      <div class="ad bad">
+        <div class="thumb">ЛОГО</div>
+        <div class="ad-body">
+          <span class="mark">× БЫЛО</span>
+          <span class="name">Плиточные работы любой сложности</span>
+          <span class="price">от 100 ₽</span>
+          <span class="desc">Качественно, недорого, в срок. Звоните, всё обсудим.</span>
+        </div>
+      </div>
+      <div class="ad good">
+        <div class="thumb tile" aria-hidden="true"></div>
+        <div class="ad-body">
+          <span class="mark">✓ СТАЛО</span>
+          <span class="name">Укладка плитки в ванной и на кухне</span>
+          <span class="price">1 800–2 400 ₽/м²</span>
+          <span class="desc"><b>Входит:</b> подготовка основания, укладка, подрезка, затирка, вывоз мусора.<br><b>Отдельно:</b> демонтаж старой плитки — 300 ₽/м², материал ваш.<br><b>Срок:</b> ванная 4 м² — 5–7 дней.</span>
+        </div>
+      </div>
+      <p class="why">На фото — твой объект, а не логотип. Клиент сразу видит работу и может прикинуть сумму на свою площадь.</p>
+    </div>
+
+    <div class="case">
+      <div class="case-title"><h3>Сантехник</h3></div>
+      <div class="ad bad">
+        <div class="thumb">ФОТО ИЗ СЕТИ</div>
+        <div class="ad-body">
+          <span class="mark">× БЫЛО</span>
+          <span class="name">Сантехник. Все виды работ</span>
+          <span class="price">от 300 ₽</span>
+          <span class="desc">Цена по телефону.</span>
+        </div>
+      </div>
+      <div class="ad good">
+        <div class="thumb pipe" aria-hidden="true"></div>
+        <div class="ad-body">
+          <span class="mark">✓ СТАЛО</span>
+          <span class="name">Установка и замена унитаза, раковины, смесителя</span>
+          <span class="price">2 500–4 000 ₽ за прибор</span>
+          <span class="desc"><b>Входит:</b> демонтаж старого, установка, подключение, проверка на протечки.<br><b>Отдельно:</b> гофра и шланги по чеку, вывоз старого прибора — 500 ₽.<br><b>Срок:</b> 1–2 часа, приезд в день заявки.</span>
+        </div>
+      </div>
+      <p class="why">«Цена по телефону» звучит как «дорого, но не скажу». Вилка за прибор снимает этот страх.</p>
+    </div>
+
+    <div class="case">
+      <div class="case-title"><h3>Электрик</h3></div>
+      <div class="ad bad">
+        <div class="thumb">ЛОГО</div>
+        <div class="ad-body">
+          <span class="mark">× БЫЛО</span>
+          <span class="name">Электромонтажные работы</span>
+          <span class="price">от 50 ₽</span>
+          <span class="desc">Опыт 15 лет. Недорого.</span>
+        </div>
+      </div>
+      <div class="ad good">
+        <div class="thumb el" aria-hidden="true"></div>
+        <div class="ad-body">
+          <span class="mark">✓ СТАЛО</span>
+          <span class="name">Электрик: розетки, выключатели, перенос точек</span>
+          <span class="price">600–1 000 ₽ за точку</span>
+          <span class="desc"><b>Входит:</b> подрозетник, установка, подключение, проверка.<br><b>Отдельно:</b> штробление бетона — 400 ₽/м, выезд от 5 точек бесплатно.<br><b>Срок:</b> квартира-однушка — 1–2 дня.</span>
+        </div>
+      </div>
+      <p class="why">Условие «от 5 точек выезд бесплатно» отвечает на вопрос, который клиент постеснялся бы задать.</p>
+    </div>
+    <p class="note">Цифры в примерах иллюстративные. Подставь свои, по рынку твоего города.</p>
+  </section>
+
+  <!-- 6. СКРИПТЫ -->
+  <section>
+    <span class="eyebrow">Часть 6 · «а сколько стоит?»</span>
+    <h2>Отвечай <span class="gold">вилкой и вопросом</span>, а не «смотреть надо»</h2>
+    <p class="lead">«Нужно смотреть» клиент слышит как «дорого». Назови вилку сразу, а за точной цифрой попроси то, что тебе правда нужно.</p>
+
+    <div class="script">
+      <div class="script-head">
+        <span class="eyebrow">Ответ в чат Авито</span>
+        <button class="btn" type="button" data-copy="chat1">Скопировать</button>
+      </div>
+      <div class="bubble" id="chat1">Здравствуйте! Укладка плитки у меня 1 800–2 400 ₽ за м², это работа. Входит подготовка, укладка, затирка и вывоз мусора.
+Чтобы назвать точную сумму, пришлите, пожалуйста:
+1) площадь или размеры комнаты
+2) фото стен или пола и формат плитки
+Посчитаю и отвечу сегодня.</div>
+    </div>
+
+    <div class="script">
+      <span class="eyebrow">По телефону · 4 шага</span>
+      <ol class="steps">
+        <li><div>Вилка<i>«Обычно такая ванная выходит в 1 800–2 400 за метр».</i></div></li>
+        <li><div>От чего зависит<i>«Ближе к 2 400 — если плитка крупная или стены кривые».</i></div></li>
+        <li><div>Один вопрос<i>«Какая у вас площадь и какой формат плитки?»</i></div></li>
+        <li><div>Следующий шаг<i>«Пришлите фото в чат, я сегодня скину смету. Или подъеду на замер в четверг».</i></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. НА ОБЪЕКТЕ -->
+  <section>
+    <span class="eyebrow">Часть 7 · чтобы не «умножить на пять»</span>
+    <h2>Правило: <span class="gold">ни рубля сверху</span> без согласия до работы</h2>
+    <p class="lead">Клиент оценивает мастера по итоговой сумме, а не по цене в объявлении. Если итог совпал с ожиданием, он оставляет хороший отзыв.</p>
+    <div class="stack">
+      <div class="reason"><span class="ic">✓</span><div><h3>Смета до старта — письменно</h3><p>Отправь её в чат Авито. Так у клиента и у тебя есть одна и та же цифра.</p></div></div>
+      <div class="reason"><span class="ic">✓</span><div><h3>Вскрылось на объекте — сначала фото</h3><p>Покажи проблему, назови новую сумму и дождись «да». Только потом делай.</p></div></div>
+      <div class="reason"><span class="ic">✓</span><div><h3>В конце — просьба об отзыве</h3><p>Ты уложился в смету. Это лучший момент попросить отзыв, а отзывы поднимают тебя в выдаче.</p></div></div>
+    </div>
+    <div class="script">
+      <div class="script-head">
+        <span class="eyebrow">Если на объекте всплыла доплата</span>
+        <button class="btn" type="button" data-copy="chat2">Скопировать</button>
+      </div>
+      <div class="bubble" id="chat2">Сняли старую плитку — под ней стена с перепадом 2 см, фото ниже. Чтобы новая плитка не отвалилась, стену нужно выровнять: это +3 500 ₽ к смете.
+Делаю только после вашего «да». Если не согласны, обсудим другой вариант.</div>
+    </div>
+  </section>
+
+  <!-- 8. КОНСТРУКТОР -->
+  <section>
+    <span class="eyebrow">Часть 8 · сделай за 2 минуты</span>
+    <h2>Конструктор <span class="gold">твоей цены</span></h2>
+    <p class="lead">Впиши свои данные. Готовый текст для описания и для первого ответа соберётся ниже.</p>
+
+    <form class="builder" id="builder" autocomplete="off">
+      <div class="fields">
+        <label class="full">Услуга словами клиента<input id="f-service" value="Укладка плитки в ванной и на кухне"></label>
+        <label>Цена от, ₽<input id="f-min" inputmode="numeric" value="1800"></label>
+        <label>Цена до, ₽<input id="f-max" inputmode="numeric" value="2400"></label>
+        <label>За что цена<input id="f-unit" value="за м², работа"></label>
+        <label>Срок<input id="f-term" value="ванная 4 м² — 5–7 дней"></label>
+        <label class="full">Что входит<textarea id="f-in">подготовка основания, укладка, подрезка, затирка, вывоз мусора</textarea></label>
+        <label class="full">Что отдельно<textarea id="f-out">демонтаж старой плитки — 300 ₽/м², материал ваш</textarea></label>
+        <label class="full">Дороже, если…<input id="f-more" value="крупный формат, диагональ, кривые стены"></label>
+        <label class="full">Что нужно от клиента для точной цены<input id="f-ask" value="площадь и фото стен или пола"></label>
+      </div>
+
+      <div class="out">
+        <div class="out-block">
+          <div class="script-head"><span class="eyebrow">Поле «Цена»</span></div>
+          <div class="bubble" id="o-price"></div>
+        </div>
+        <div class="out-block">
+          <div class="script-head"><span class="eyebrow">Первые строки описания</span><button class="btn" type="button" data-copy="o-desc">Скопировать</button></div>
+          <div class="bubble" id="o-desc"></div>
+        </div>
+        <div class="out-block">
+          <div class="script-head"><span class="eyebrow">Первый ответ в чат</span><button class="btn" type="button" data-copy="o-chat">Скопировать</button></div>
+          <div class="bubble" id="o-chat"></div>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!-- 9. ЧЕК-ЛИСТ -->
+  <section>
+    <span class="eyebrow">Часть 9 · проверь своё объявление</span>
+    <h2>Чек-лист: <span class="score" id="score">0 из 7</span></h2>
+    <div class="check" id="checklist">
+      <label><input type="checkbox" id="c1"> В поле «Цена» стоит реальная нижняя граница, а не 100 ₽</label>
+      <label><input type="checkbox" id="c2"> Цена указана в единице клиента: м², точка, прибор, выезд</label>
+      <label><input type="checkbox" id="c3"> В первых строках описания есть «входит» и «отдельно»</label>
+      <label><input type="checkbox" id="c4"> Срок указан в днях или неделях</label>
+      <label><input type="checkbox" id="c5"> Нигде нет фразы «цена по телефону»</label>
+      <label><input type="checkbox" id="c6"> Готов шаблон ответа на «сколько стоит?»</label>
+      <label><input type="checkbox" id="c7"> Смету отправляю в чат до начала работ</label>
+    </div>
+  </section>
+
+  <!-- ФИНАЛ -->
+  <section class="final">
+    <span class="eyebrow" style="color:#5A4718">Дальше</span>
+    <h2>Цена — пятый пункт из пяти</h2>
+    <p>Если клиент всё равно не пишет, причина может быть в другом пункте: скорость ответа, отзывы, текст или точка на карте. Пришли ссылку на своё объявление — скажу, какой пункт у тебя хромает.</p>
+    <div class="todo">Напиши мне в директ слово «РАЗБОР» и ссылку на объявление</div>
+  </section>
+
+  <footer>
+    <span>@musinpushkina · Цена без побега</span>
+    <span>Цифры в примерах иллюстративные. Правила Авито меняются, сверяйся с актуальными в справке.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // копирование
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.dataset.copy);
+      var text = el.innerText;
+      var done = function(){ var t = btn.textContent; btn.textContent = 'Скопировано'; setTimeout(function(){ btn.textContent = t; }, 1600); };
+      var fallback = function(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Выделено — нажми «копировать»'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+    });
+  });
+
+  // конструктор
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(v){ var n = String(v).replace(/\D/g,''); return n ? Number(n).toLocaleString('ru-RU') : '…'; };
+  function render(){
+    var s = $('f-service').value.trim() || 'Услуга';
+    var min = fmt($('f-min').value), max = fmt($('f-max').value);
+    var unit = $('f-unit').value.trim(), term = $('f-term').value.trim();
+    var inc = $('f-in').value.trim(), out = $('f-out').value.trim();
+    var more = $('f-more').value.trim(), ask = $('f-ask').value.trim();
+    $('o-price').textContent = min + ' ₽' + (unit ? ' (' + unit + ')' : '');
+    var d = s + '.\n';
+    if (inc) d += 'Входит: ' + inc + '.\n';
+    if (out) d += 'Отдельно: ' + out + '.\n';
+    if (term) d += 'Срок: ' + term + '.\n';
+    if (more) d += 'Дороже, если: ' + more + '.';
+    $('o-desc').textContent = d.trim();
+    var c = 'Здравствуйте! ' + s + ' у меня ' + min + '–' + max + ' ₽' + (unit ? ' ' + unit : '') + '.';
+    if (inc) c += ' Входит: ' + inc + '.';
+    if (out) c += ' Отдельно: ' + out + '.';
+    c += '\nЧтобы назвать точную сумму, пришлите, пожалуйста, ' + (ask || 'фото и размеры') + '. Посчитаю и отвечу сегодня.';
+    $('o-chat').textContent = c;
+  }
+  $('builder').addEventListener('input', render);
+  $('builder').addEventListener('submit', function(e){ e.preventDefault(); });
+  render();
+
+  // чек-лист
+  var boxes = document.querySelectorAll('#checklist input');
+  var KEY = 'cena-check-v1';
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || '[]'); boxes.forEach(function(b){ b.checked = saved.indexOf(b.id) > -1; }); } catch(e){}
+  function score(){
+    var on = []; boxes.forEach(function(b){ if (b.checked) on.push(b.id); });
+    $('score').textContent = on.length + ' из ' + boxes.length;
+    try { localStorage.setItem(KEY, JSON.stringify(on)); } catch(e){}
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', score); });
+  score();
+})();
+</script>
