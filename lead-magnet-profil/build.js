@@ -6,9 +6,9 @@ const { chromium } = require('playwright');
 const dir = __dirname;
 const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3M1JNbhSu74Ia2MH0XXy8yUv1SL/';
 const remote = {
-  '1.png': CDN + 'hf_20261119_124001_fa5d3db8-3df9-4f15-92f4-305039a7a705.png',
-  '2.png': CDN + 'hf_20261119_124002_46b536ef-6556-4c5e-aaeb-3fb12a6a31b7.png',
-  '3.png': CDN + 'hf_20261119_124001_83fb36a6-b415-4838-8410-753b99a2368b.png',
+  'a1.png': CDN + 'hf_20261119_130806_53d07133-783a-4ab9-8937-2a91d190722f.png',
+  'a2.png': CDN + 'hf_20261119_130806_b666bdc1-75e7-48c6-8469-323956ec7214.png',
+  'a3.png': CDN + 'hf_20261119_130806_1434c50b-b1c5-4427-81cd-4ccc91fc261a.png',
 };
 
 (async () => {
